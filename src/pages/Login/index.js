@@ -1,11 +1,19 @@
 import { useState } from 'react'
 import './index.scss'
+import { useDispatch } from 'react-redux'
+import {postLoginData} from '../../store/modules/user'
+import { useNavigate } from 'react-router-dom'
+import {message} from 'antd';
 
 const Login=()=>{
+
     const[username,SetUsername] = useState('')
     const[password,SetPassword] = useState('')
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-    const handelSubmit = (e) =>{
+
+    const handelSubmit = async(e) =>{
         e.preventDefault()
         let error = false
 
@@ -13,10 +21,18 @@ const Login=()=>{
             error = true
         }
         if(!error){
-            console.log('success',{username,password})
+            const loginSuccess = await dispatch(postLoginData({username,password}))
+            if(loginSuccess)
+            {
+            navigate('/')
+            message.success('login success')
+            }else{
+                message.error('Wrong Username or Password')
+            }        
         }
     }
     return(
+        
         <div className='box'>
             <form className='form' onSubmit={handelSubmit}>
                 <h2>Sign in</h2>
@@ -29,11 +45,12 @@ const Login=()=>{
                 <div className='inputBox'>
                     <input type="password" value={password} required="required" onChange={(e)=>SetPassword(e.target.value)}/>
                     <span>Password </span>
+                    
                     <i></i>
                 </div>
                 <div className="links">
-                    <a href="#">Forgot Password</a>
-                    <a href="#">Sign Up</a>
+                    <a href="/forgetpassword">Forgot Password</a>
+                    <a href="/signup">Sign Up</a>
                 </div>
                 <input type="submit" value="Login"></input>
             </form>
