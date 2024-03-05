@@ -32,7 +32,7 @@ const Login=()=>{
         }
     }
     return(
-        
+        <div className='login'>
         <div className='box'>
             <form className='form' onSubmit={handelSubmit}>
                 <h2>Sign in</h2>
@@ -54,6 +54,7 @@ const Login=()=>{
                 </div>
                 <input type="submit" value="Login"></input>
             </form>
+        </div>
         </div>
     )
 }

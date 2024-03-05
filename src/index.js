@@ -5,7 +5,8 @@ import { RouterProvider } from 'react-router-dom';
 import router from './router/index';
 import { Provider } from 'react-redux';
 import store from './store';
-import './common.scss';
+import 'normalize.css'
+import './index.scss'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 <Provider store={store}>
