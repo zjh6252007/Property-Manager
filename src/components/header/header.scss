@@ -3,8 +3,11 @@
     min-height: 25px;
     display: flex;
     justify-content:flex-end;
-    font-size: 20px;
-    
+    font-size: 14px;
+    margin-top: 10px;
+    border-bottom: 1px solid gray; 
+    padding-bottom: 15px; 
+    box-shadow:0 2px 0 #f1ed83;
 }
 .notification{
     padding: 10px;
@@ -21,14 +24,44 @@
     background-color: #f1ed83;
     border-radius: 20px;
 }
+
 .usericon{
     padding-left: 10px;
 }
 .user:hover{
     border: 1px solid gray;
     border-radius: 20px;
+    cursor: pointer;
 }
-
+.user{
+    display: flex;
+}
+.dropdown{
+    position: absolute;
+    padding-top: 20px;
+    right:20px;
+}
+.dropdown ul{
+    padding-top: 10px;
+    padding-bottom:10px;
+    padding-left:15px;
+    padding-right:10px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    box-shadow: 3px 3px 5px #aca94d;
+    background-color: #f5f299;
+}
+.dropdown li{
+    display: flex;
+    margin-bottom: 7px;
+    letter-spacing: 0.2px;
+    
+}
+.dropdown li:hover{
+    cursor: pointer;
+    background-color: #f1ed83;
+    border-radius: 10px;
+}
 @media (max-width: 600px) {
         .username {
           display: none;

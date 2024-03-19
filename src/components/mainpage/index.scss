@@ -1,0 +1,27 @@
+.common-style{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #c9c565;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 5px #aca94d;
+    background-color:#29221d;
+}
+
+.common-header{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    box-shadow:0 2px 4px #a8a14895;
+    font: italic 1.2rem "Fira Sans", serif;
+}
+.icon{
+    display: flex;
+    gap:5px;
+    margin-right: 5px;
+}
+.icon :hover{
+    cursor: pointer;
+}

@@ -5,7 +5,7 @@
     min-height: 100vh;
     flex-direction: column;
     align-items: baseline;
-    
+    background: #29221d;
 }
 .home-logo{
     overflow: hidden;
@@ -37,12 +37,14 @@
     text-transform: capitalize;
     border: 1px solid transparent;
     transition: background-color 0.8s;
+    color: #fff;
 }
 .nav-list li:hover{
-    border: 1px solid whitesmoke;
+    border: 1px solid #473b33;
     border-radius: 20px;
 }
 .nav-item.active{
-    background-color: #c7c224;
+    background-color: #fe6c00;
     border-radius: 20px;
+    box-shadow: raba(0,0,0,0.1) 0px 20px 25px -5px,rgba(0,0,0,0.04)0 10px 10px -5px;
 }

@@ -1,5 +1,6 @@
 import {createBrowserRouter} from 'react-router-dom'
 import MainPage from '../pages/MainPage'
+import Home from '../pages/Home/index.js'
 import Login from '../pages/Login/index'
 import RouterAu from '../components/RouterAu'
 import Register from '../pages/Register'
@@ -12,6 +13,9 @@ const router = createBrowserRouter([
         path:'/',
         element:<RouterAu><MainPage/></RouterAu>,
         children:[
+            {   path:'/home',
+                element:<Home/>
+            },
             {
                 path:'/documents',
                 element:<Documents/>

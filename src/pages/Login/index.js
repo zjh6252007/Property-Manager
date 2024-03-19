@@ -40,8 +40,8 @@ const Login=()=>{
                     <input type="text" value={username} required="required" onChange={(e)=>SetUsername(e.target.value)}/>
                     <span>Username</span>
                     <i></i>
-
                 </div>
+                
                 <div className='inputBox'>
                     <input type="password" value={password} required="required" onChange={(e)=>SetPassword(e.target.value)}/>
                     <span>Password </span>
