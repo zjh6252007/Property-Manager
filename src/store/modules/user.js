@@ -21,11 +21,13 @@ const {setToken} = user.actions
 const postLoginData = (data) => {
     return async (dispatch) => {
         try {
-            const res = await request.post('/authorization', data)
+            const res = await request.post('/user/authorization', data)
             console.log(res)
-            if(res.data.token)
-            {dispatch(setToken(res.data.token))
-            return true}
+            if(res.data)
+            {
+            dispatch(setToken(res.data))
+            return true
+        }
             else{
                 return false
             }
