@@ -1,0 +1,24 @@
+.tenant{
+    margin-top: 20px;
+}
+
+.tenant-form{
+    display: flex;
+    flex-direction: column;
+}
+.add-button{
+    margin-bottom: 3px;
+    margin-right: 5px;
+    align-self: flex-end;
+}
+.add-button button{
+    background-color: aliceblue;
+    color: black;
+}
+.ant-table-container{
+    background-color: rgb(173, 166, 156);
+}
+.ant-pagination li{
+    color: aliceblue;
+    background-color: aliceblue !important;
+}

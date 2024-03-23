@@ -8,6 +8,8 @@ import Documents from '../pages/Documents'
 import Applications from '../pages/Applications'
 import Properties from '../pages/Properties'
 import Sidebar from '../components/sidebar/sidebar.js'
+import Manage from '../pages/Manage/index.js'
+import Tenants from '../pages/Tenants/index.js'
 const router = createBrowserRouter([
     {
         path:'/',
@@ -21,12 +23,18 @@ const router = createBrowserRouter([
                 element:<Documents/>
             },
             {
-                path:'/listings',
+                path:'/property',
                 element:<Properties/>
             },
             {
                 path:'/contact',
                 element:<Applications/>
+            },{
+                path:'/manage',
+                element:<Manage/>
+            },{
+                path:'/tenant',
+                element:<Tenants/>
             }
         ]
     },{

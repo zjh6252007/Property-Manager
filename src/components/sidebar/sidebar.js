@@ -9,8 +9,8 @@ const Sidebar = () =>{
 
     const navigate = useNavigate()
     const location = useLocation()
-    console.log(location.pathname)
     const [activeIndex,setactiveIndex] = useState(location.pathname)
+
     const nav =(path)=>()=>{
         let navpath = path
         setactiveIndex(path)

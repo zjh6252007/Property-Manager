@@ -69,6 +69,10 @@
 .inputBox input:focus ~ i{
     height: 44px;
 }
+.error{
+    color: red;
+    margin: 10px;
+}
 .links{
     display: flex;
     justify-content: space-between;
@@ -102,7 +106,7 @@ input[type="submit"]:active{
     font-size:15px;
 }
 
-.login{
+.login,.register{
     display: flex;
     justify-content: center;
     align-items: center;

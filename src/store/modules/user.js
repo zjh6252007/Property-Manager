@@ -1,23 +1,45 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { request } from "../../utils/index";
+import { deleteToken, request } from "../../utils/index";
 import { getToken,setToken as _setToken } from "../../utils/index";
 
 const user = createSlice({
     name:'user',
     initialState:{
-        token:getToken()||''
+        token:getToken()||'',
+        userInfo:{}
     },
     reducers:{
         setToken(state,action){
             state.token = action.payload
             _setToken(action.payload)
+        },
+        setUserInfo(state,action){
+            state.userInfo = action.payload
+        },
+        clearUserInfo(state){
+            state.token=''
+            deleteToken()
         }
     }
 })
 
-const {setToken} = user.actions
+const {setToken,setUserInfo,clearUserInfo} = user.actions
 
-
+const getUserData = () =>{
+    return async(dispatch,getState) =>{
+        const token = getState().user.token
+        try{
+            const res = await request.get('/user/profile',{
+                headers:{
+                    'Authorization':`Bearer ${token}`
+                }
+            })
+            dispatch(setUserInfo(res.data))
+        }catch(error){
+            console.log(error)
+        }
+    }
+}
 const postLoginData = (data) => {
     return async (dispatch) => {
         try {
@@ -43,11 +65,11 @@ const postRegisterData = async(data) =>{
         return res
     }catch(error)
     {
-        console.log("Register Failed",error);
+        console.log(error);
         return false
     }
 }
-export {setToken,postLoginData,postRegisterData}
+export {setToken,setUserInfo,getUserData,postLoginData,postRegisterData,clearUserInfo}
 
 const userReducer = user.reducer
 

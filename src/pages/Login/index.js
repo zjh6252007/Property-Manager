@@ -50,7 +50,7 @@ const Login=()=>{
                 </div>
                 <div className="links">
                     <a href="/forgetpassword">Forgot Password</a>
-                    <a href="/signup">Sign Up</a>
+                    <a href="/register">Sign Up</a>
                 </div>
                 <input type="submit" value="Login"></input>
             </form>

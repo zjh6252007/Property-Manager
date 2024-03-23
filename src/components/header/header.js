@@ -1,32 +1,44 @@
 import './header.scss'
 import { Popconfirm,message } from 'antd'
 import {UserOutlined,NotificationOutlined} from '@ant-design/icons'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearUserInfo,getUserData} from '../../store/modules/user';
+import { useNavigate } from 'react-router-dom';
 const Header = ()=>{
-    const confirm = (e) => {
-        console.log(e);
-        message.success('Click on Yes');
-      };
+    const dispatch = useDispatch()
+    const nav = useNavigate()
       const cancel = (e) => {
-        console.log(e);
-        message.error('Click on No');
-      };
+        message.error('Click on No')
+      }
       const [clicked,SetClicked] = useState(false)
       
+      const logout = () =>{
+        dispatch(clearUserInfo())
+        nav('/login')
+        message.success('Log Out')
+      }
+
+      useEffect(()=>{
+        dispatch(getUserData())
+      },[dispatch])
+
+      const username = useSelector(state=>state.user.userInfo.username)
+      const email = useSelector(state=>state.user.userInfo.email)
     return(
 <div className='header'>
     <div className='notification'>
     <NotificationOutlined />
     </div>
+
     <div className='user' onClick={()=>{SetClicked(!clicked)}}>
         <div className='username'>
-        Username
+        {username}
         </div>
         <div className='dropdown'>
             {clicked&&(
                 <ul>
-                    <li>Userinfo</li>
-                    <li>Email Address</li>
+                    <li>{email}</li>
                     <li>Log Out</li>
                 </ul>)
 }
@@ -35,7 +47,7 @@ const Header = ()=>{
         <Popconfirm
         title="Log out"
         description="Are you sure to logout?"
-        onConfirm={confirm}
+        onConfirm={logout}
         onCancel={cancel}
         okText="Yes"
         cancelText="No"

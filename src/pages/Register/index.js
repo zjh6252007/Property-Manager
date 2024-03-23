@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { postRegisterData } from "../../store/modules/user";
 import {message} from 'antd';
+import { useNavigate } from "react-router-dom";
 
 const Register =() =>{
     const [username,SetUsername] = useState('')
@@ -8,6 +9,7 @@ const Register =() =>{
     const [confirmPassword,SetConfirmPassword] = useState('')
     const [email,SetEmail] = useState('')
     const [error,SetError] = useState('')
+    const nav = useNavigate()
     const validateUsername = (username) =>{
         const rules = /[^a-zA-Z0-9]/
         return rules.test(username)
@@ -19,7 +21,7 @@ const Register =() =>{
     }
 
     const validateEmail = (email) =>{
-        const rules = /[^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$]/
+        const rules = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
         return rules.test(email)
     }
 
@@ -37,8 +39,8 @@ const Register =() =>{
     const handlePassword = (e) =>{
         const input = e.target.value
         SetPassword(input)
-        if(validatePassword(input)){
-            SetError('Invalid Password')
+        if(!validatePassword(input)){
+            SetError('Invalid Password: Password must contain at least 1 letter and number')
         }else{
             SetError('')
         }
@@ -46,7 +48,7 @@ const Register =() =>{
     const handleEmail = (e) =>{
         const input = e.target.value
         SetEmail(input)
-        if(validateEmail(input)){
+        if(!validateEmail(input)){
             SetError('Invalid Email')
         }else{
             SetError('')
@@ -61,21 +63,27 @@ const Register =() =>{
             return
         }
 
-        if(error !== ""){
+        if(error === ""){
+            try{
             const registerResponse = await postRegisterData({username,password,email})
+            nav('/login')
             console.log(registerResponse)
             if(registerResponse.code === 1)
             {
                 message.error(registerResponse.message)
             }
-        }else{
-            SetError('Registration failed')
+            else{
+            SetError(registerResponse.message)
+            }}catch(error){
+                console.error('Registration error:',error)
+            }
         }
     }
     return(
         <div className="register">
             <div className="box">
                 <form className="form" name="register" onSubmit={handelSubmit}>
+                    <h2>Register</h2>
                     <div className="inputBox">
                     <input type="text" value={username} required={true} onChange={handleUsername}></input>
                     <span>username</span>
@@ -100,7 +108,7 @@ const Register =() =>{
                         <i></i>
                     </div>
                     {error && <div className="error">{error}</div>}
-                    <button type="submit">Register</button>
+                    <input type="submit" value="Register"></input>
                 </form>
             </div>
         </div>
