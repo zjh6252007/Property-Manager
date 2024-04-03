@@ -1,23 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { Space,Popconfirm,Table, Button ,Modal,Form,Input} from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTenantData,postTenantData,deleteTenantData } from '../../store/modules/tenant';
+import { getTenantData,postTenantData,deleteTenantData,modifyTenantData } from '../../store/modules/tenant';
 import './index.scss'
 import { useForm } from 'antd/es/form/Form';
 const Tenants = () =>{
 
 const [isVisible,SetIsVisible] = useState(false)
+const [isEditing,SetIsEditing] = useState(false)
+const [editingTenant,setEditingTenant] = useState(null)
 const dispatch = useDispatch()
 const [form] = useForm()
 
-const handleDelete = (id) =>{
+const handleDelete = (id) =>{ //Delete the user by id
     dispatch(deleteTenantData(id))
 }
 
-const handleModify = () =>{
-
+const handleModify = (tenant) =>{ //modify user
+  SetIsEditing(true)
+  setEditingTenant(tenant)
+  showModal(tenant)
 }
 
+const showModal = (tenant = null) =>{ //show the form when user click the modify or add tenant button
+  SetIsVisible(true)
+  if(tenant){ //if modify then auto fill the info from form
+    form.setFieldsValue(tenant)
+  }else{// if add tenant then show the empty form
+    form.resetFields()
+  }
+}
 const columns = [
   {
     title: 'First Name',
@@ -49,27 +61,31 @@ const columns = [
         <Button>Delete</Button>
         </Popconfirm>
 
-        <Button>Modify</Button>
+        <Button onClick={()=>handleModify(record)}>Modify</Button>
         
         </Space>
     )
   }
 ];
 
-
-const showModal = () =>{
-    SetIsVisible(true)
-}
-
 const handelOk = async() =>{
     try{
         const values = await form.validateFields()
-        const response = await dispatch(postTenantData(values))
-        if(response){
+        if(isEditing && editingTenant){ //Depends on current state,it editing then call modify function
+          const response = await dispatch(modifyTenantData(editingTenant.id,values))
+          if(response){
             console.log(response)
-            SetIsVisible(false)
-            form.resetFields()
+          }
+        }else{
+          const response = await dispatch(postTenantData(values))
+          if(response){
+              console.log(response)
+          }
         }
+        SetIsVisible(false)
+        SetIsEditing(false)
+        setEditingTenant(null)
+        form.resetFields()
     }catch(error){
         console.log(error)
     }
@@ -91,7 +107,7 @@ return(
             <div className='add-button'>
             <Button type="primary" onClick={showModal} size='large'>Add tenant</Button>
             </div>
-            <Table columns={columns} dataSource={tenantData} rowKey="id"/>
+            <Table columns={columns} dataSource={tenantData} rowKey="id"/>  `dsasd`
         </div>
         <Modal title="Add tenant" open={isVisible} onOk={handelOk} onCancel={handelCancel}>
         <Form
