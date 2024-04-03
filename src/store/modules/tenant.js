@@ -12,11 +12,18 @@ const tenant = createSlice({
         },
         addTenantInfo(state,action){
             state.tenantInfo.push(action.payload)
+        },
+        updateTenantInfo(state,action){
+            const {id,data} = action.payload
+            const index = state.tenantInfo.findIndex(tenant => tenant.id === id)
+            if(index !== -1){
+                state.tenantInfo[index] = {...state.tenantInfo[index],...data}
+            }
         }
     }
 })
 
-const {setTenantInfo,addTenantInfo} = tenant.actions
+const {setTenantInfo,addTenantInfo,updateTenantInfo} = tenant.actions
 
 const getTenantData = () =>{
     return async(dispatch) =>{
@@ -53,7 +60,22 @@ const deleteTenantData = (id) =>{
         }
     }
 }
-export {getTenantData,postTenantData,deleteTenantData}
+
+const modifyTenantData = (id,data) => async(dispatch) =>{
+    try{
+        const res = await request.put(`/tenant/modify/${id}`,data,{
+            headers:{
+                'Content-Type':'application/json'
+            }
+        })
+        dispatch(updateTenantInfo({id,data:res.data}))
+        return res
+    }catch(error){
+        console.log(error)
+        return false
+    }
+}
+export {getTenantData,postTenantData,deleteTenantData,modifyTenantData}
 
 const tenantReducer = tenant.reducer
 export default tenantReducer

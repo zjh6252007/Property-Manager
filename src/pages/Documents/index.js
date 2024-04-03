@@ -1,8 +1,10 @@
+import './index.scss'
+
 const Documents =() =>
 {
     return(
-        <div>
-            documents
+        <div className="document">
+            Documents
         </div>
     )
 }

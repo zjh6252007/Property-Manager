@@ -13,6 +13,11 @@ const [form] = useForm()
 const handleDelete = (id) =>{
     dispatch(deleteTenantData(id))
 }
+
+const handleModify = () =>{
+
+}
+
 const columns = [
   {
     title: 'First Name',
@@ -44,11 +49,8 @@ const columns = [
         <Button>Delete</Button>
         </Popconfirm>
 
-        <Popconfirm
-            description="Confirm to delete"
-            onConfirm={()=>handleDelete(record.id)}>
         <Button>Modify</Button>
-        </Popconfirm>
+        
         </Space>
     )
   }
@@ -58,6 +60,7 @@ const columns = [
 const showModal = () =>{
     SetIsVisible(true)
 }
+
 const handelOk = async() =>{
     try{
         const values = await form.validateFields()
