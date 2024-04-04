@@ -1,5 +1,12 @@
 .document{
+    display: flex;
     color: white;
     font-size: 40px;
     padding: 20px;
+    flex-direction: column;
+}
+.title{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
 }
