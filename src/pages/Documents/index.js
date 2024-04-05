@@ -1,11 +1,29 @@
 import './index.scss'
-import { Button, message, Upload,Space,Table} from 'antd';
-import { getContractList ,downloadContract} from '../../store/modules/contract';
+import { Button, message, Upload, Space, Table} from 'antd';
+import { getContractList, downloadContract, uploadContract} from '../../store/modules/contract';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
 const Documents =() =>
 {
+
+    const dispatch = useDispatch()
+    useEffect(()=>{
+      dispatch(getContractList())
+    },[dispatch])
+
+    
+    const handelUpload = ({file}) =>{
+        dispatch(uploadContract(file))
+        .then(()=>{
+            message.success(`${file.name} file upload successfully`)
+        })
+        .catch(()=>{
+            message.error('upload failed')
+        })
+      }
+
+      
     const props = {
     beforeUpload:(file)=>{
         const isPDF = file.type === 'application/pdf'
@@ -13,14 +31,10 @@ const Documents =() =>
             message.error(`${file.name} is not pdf`)
         }
         return isPDF || Upload.LIST_IGNORE
-    }
+    },
+    customRequest: handelUpload,
+    showUploadList:false
 }
-
-
-  const dispatch = useDispatch()
-  useEffect(()=>{
-    dispatch(getContractList())
-  },[dispatch])
 
   const contractInfo = useSelector(state=>state.contract.contractList)
   const contractData = contractInfo.map((name,index)=>({
@@ -56,19 +70,20 @@ const Documents =() =>
   ]
 
     return(
-        <div className="document">
-            <div className='title'>
-            Documents
-            <div className='add-button'>
-                <Upload {...props}>
-            <Button type="primary" size='large'>Upload Contracts</Button>
+<div className="document">
+    <div className='title'>
+    Documents
+        <div className='add-button'>
+            <Upload {...props}>
+                <Button type="primary" size='large'>Upload Contracts</Button>
             </Upload>
-            </div>
-            </div>
-            <div className='contract'>
-            <Table columns={columns} dataSource={contractData} />
-            </div>  
         </div>
+    </div>
+
+    <div className='contract'>
+        <Table columns={columns} dataSource={contractData} />
+    </div>  
+</div>
     )
 }
 

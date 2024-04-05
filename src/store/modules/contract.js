@@ -4,16 +4,20 @@ import { request } from "../../utils";
 const contract = createSlice({
     name:"contract",
     initialState:{
-        contractList:[]
+        contractList:[],
+        uploadStatus:'idle',
     },
     reducers:{
         setContractList(state,action){
             state.contractList = action.payload
+        },
+        setUploadStatus(state,action){
+            state.uploadStatus = action.payload
         }
     }
 })
 
-const {setContractList} = contract.actions
+const {setContractList,setUploadStatus} = contract.actions
 
 const getContractList = () =>{
     return async(dispatch)=>{
@@ -26,11 +30,31 @@ const getContractList = () =>{
 const downloadContract = (fileName) =>{
     return async() =>{
         const res = await request.get(`/file/presigned-url/${fileName}`)
-        console.log(res.data)
         return res.data
     }
 }
-export {getContractList,downloadContract}
+
+const uploadContract = (fileData) => async(dispatch) =>{
+    try{
+        dispatch(setUploadStatus('uploading'))
+        const formData = new FormData()
+        formData.append("file",fileData)
+        const res = await request.post('/file/upload',formData,{
+            headers:{
+                'Content-Type':'multipart/form-data',
+            },
+        })
+        dispatch(setUploadStatus('success'))
+        dispatch(getContractList())
+        return res
+    }catch(error)
+    {
+        dispatch(setUploadStatus('failed'))
+        console.error(error)
+        throw error
+    }
+}
+export {getContractList,downloadContract,uploadContract}
 
 const contractRecuer = contract.reducer
 

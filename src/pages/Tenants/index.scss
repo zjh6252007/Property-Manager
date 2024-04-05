@@ -1,16 +1,11 @@
 .tenant{
-    margin-top: 20px;
-}
-
-.tenant-form{
+    font-size: 40px;
+    color: white;
+    padding: 20px;
     display: flex;
     flex-direction: column;
 }
-.add-button{
-    margin-bottom: 3px;
-    margin-right: 5px;
-    align-self: flex-end;
-}
+
 .add-button button{
     background-color: aliceblue;
     color: black;

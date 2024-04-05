@@ -104,10 +104,13 @@ const tenantData = useSelector(state => state.tenant.tenantInfo)
 return(
     <div className='tenant'>
         <div className='tenant-form'>
+          <div className='title'>
+            Tenants
             <div className='add-button'>
             <Button type="primary" onClick={showModal} size='large'>Add tenant</Button>
             </div>
-            <Table columns={columns} dataSource={tenantData} rowKey="id"/>  `dsasd`
+          </div>
+            <Table columns={columns} dataSource={tenantData} rowKey="id"/>  
         </div>
         <Modal title="Add tenant" open={isVisible} onOk={handelOk} onCancel={handelCancel}>
         <Form
