@@ -1,6 +1,6 @@
 import './index.scss'
-import { Button, message, Upload,Space,Popconfirm,Table} from 'antd';
-import { getContractList } from '../../store/modules/contract';
+import { Button, message, Upload,Space,Table} from 'antd';
+import { getContractList ,downloadContract} from '../../store/modules/contract';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
@@ -13,28 +13,9 @@ const Documents =() =>
             message.error(`${file.name} is not pdf`)
         }
         return isPDF || Upload.LIST_IGNORE
-    },
-    onChange:(info) =>{
-        console.log(info.fileList)
-    },
+    }
 }
 
-const columns = [
-    {
-      title: 'Contract Name',
-      dataIndex: 'name',
-      key:'name'
-    },
-    {
-      title:'Action',
-      key:'action',
-      render:(_,record) =>(
-          <Space size="middle">
-          <Button>Download</Button>
-          </Space>
-      )
-    }
-  ];
 
   const dispatch = useDispatch()
   useEffect(()=>{
@@ -46,6 +27,33 @@ const columns = [
     key: index,
     name: name,
   }))
+
+  const handelDownload = async(fileName) =>{
+    try{
+        const data = await downloadContract(fileName)()
+        window.open(data,'_blank')
+    }catch(error)
+    {
+        console.log(error)
+    }
+  }
+
+  const columns = [
+    {
+      title: 'Contract Name',
+      dataIndex: 'name',
+      key:'name'
+    },
+    {
+      title:'Action',
+      key:'action',
+      render:(_,record) =>(
+          <Space size="middle">
+          <Button onClick={()=>handelDownload(record.name)}>Download</Button>
+          </Space>
+      )
+    }
+  ]
 
     return(
         <div className="document">

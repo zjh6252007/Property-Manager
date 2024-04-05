@@ -23,7 +23,14 @@ const getContractList = () =>{
     }
 }
 
-export {getContractList}
+const downloadContract = (fileName) =>{
+    return async() =>{
+        const res = await request.get(`/file/presigned-url/${fileName}`)
+        console.log(res.data)
+        return res.data
+    }
+}
+export {getContractList,downloadContract}
 
 const contractRecuer = contract.reducer
 
