@@ -60,9 +60,7 @@ const columns = [
             onConfirm={()=>handleDelete(record.id)}>
         <Button>Delete</Button>
         </Popconfirm>
-
         <Button onClick={()=>handleModify(record)}>Modify</Button>
-        
         </Space>
     )
   }

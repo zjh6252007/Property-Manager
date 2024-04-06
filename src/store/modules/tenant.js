@@ -78,4 +78,5 @@ const modifyTenantData = (id,data) => async(dispatch) =>{
 export {getTenantData,postTenantData,deleteTenantData,modifyTenantData}
 
 const tenantReducer = tenant.reducer
+
 export default tenantReducer

@@ -1,0 +1,15 @@
+.property{
+    font-size: 40px;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.prop-grid{
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-gap:3vw 10px;
+}

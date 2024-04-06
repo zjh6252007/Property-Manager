@@ -1,6 +1,6 @@
 import './index.scss'
-import { Button, message, Upload, Space, Table} from 'antd';
-import { getContractList, downloadContract, uploadContract} from '../../store/modules/contract';
+import { Button, message, Upload, Space, Table, Popconfirm} from 'antd';
+import { getContractList, downloadContract, uploadContract, deleteContract} from '../../store/modules/contract';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
@@ -52,6 +52,10 @@ const Documents =() =>
     }
   }
 
+  const handleDelete = (fileName) =>{
+    dispatch(deleteContract(fileName))
+  }
+
   const columns = [
     {
       title: 'Contract Name',
@@ -64,6 +68,12 @@ const Documents =() =>
       render:(_,record) =>(
           <Space size="middle">
           <Button onClick={()=>handelDownload(record.name)}>Download</Button>
+          <Popconfirm
+            description="Confirm to delete"
+            onConfirm={()=>handleDelete(record.name)}
+            >
+        <Button>Delete</Button>
+        </Popconfirm>
           </Space>
       )
     }

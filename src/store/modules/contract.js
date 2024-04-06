@@ -54,7 +54,15 @@ const uploadContract = (fileData) => async(dispatch) =>{
         throw error
     }
 }
-export {getContractList,downloadContract,uploadContract}
+
+const deleteContract = (fileName) =>{
+    return async (dispatch) =>{
+        const res = await request.delete(`/file/delete/${fileName}`)
+        dispatch(getContractList())
+        return res
+    }
+}
+export {getContractList,downloadContract,uploadContract,deleteContract}
 
 const contractRecuer = contract.reducer
 
