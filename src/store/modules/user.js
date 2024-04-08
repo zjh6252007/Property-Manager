@@ -69,7 +69,16 @@ const postRegisterData = async(data) =>{
         return false
     }
 }
-export {setToken,setUserInfo,getUserData,postLoginData,postRegisterData,clearUserInfo}
+
+const changePwd = async(data) =>{
+    const res = await request.patch('/user/changePwd',data,{
+        headers:{
+            'Content-Type':'application/json'
+        }
+    })
+    return res
+}
+export {setToken,setUserInfo,getUserData,postLoginData,postRegisterData,clearUserInfo,changePwd}
 
 const userReducer = user.reducer
 
