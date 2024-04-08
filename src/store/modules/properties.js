@@ -4,7 +4,7 @@ import { request } from "../../utils";
 const properties = createSlice({
     name:"properties",
     initialState:{
-        propertyInfo:[]
+        propertyInfo:{}
     },
     reducers:
     {
@@ -18,7 +18,7 @@ const {setPropertyInfo} = properties.actions
 
 const getPropertyList = () =>{
     return async(dispatch)=>{
-        const res = request.get('/properties/getAll')
+        const res = await request.get('/properties/getAll')
         dispatch(setPropertyInfo(res.data))
         return res.data
     }

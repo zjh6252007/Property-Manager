@@ -5,7 +5,7 @@ import Login from '../pages/Login/index'
 import RouterAu from '../components/RouterAu'
 import Register from '../pages/Register'
 import Documents from '../pages/Documents'
-import Applications from '../pages/Applications'
+import Profile from '../pages/profile/index.js'
 import Properties from '../pages/Properties'
 import Sidebar from '../components/sidebar/sidebar.js'
 import Manage from '../pages/Manage/index.js'
@@ -27,8 +27,8 @@ const router = createBrowserRouter([
                 element:<Properties/>
             },
             {
-                path:'/contact',
-                element:<Applications/>
+                path:'/profile',
+                element:<Profile/>
             },{
                 path:'/manage',
                 element:<Manage/>

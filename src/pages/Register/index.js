@@ -86,13 +86,13 @@ const Register =() =>{
                     <h2>Register</h2>
                     <div className="inputBox">
                     <input type="text" value={username} required={true} onChange={handleUsername}></input>
-                    <span>username</span>
+                    <span>Username</span>
                     <i></i>
                     </div>
 
                     <div className="inputBox">
                         <input type="password" value={password} required={true} onChange={handlePassword}></input>
-                        <span>password</span>
+                        <span>Password</span>
                         <i></i>
                     </div>
 
@@ -107,6 +107,7 @@ const Register =() =>{
                         <span>Email</span>
                         <i></i>
                     </div>
+
                     {error && <div className="error">{error}</div>}
                     <input type="submit" value="Register"></input>
                 </form>

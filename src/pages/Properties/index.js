@@ -1,12 +1,15 @@
 import './index.scss'
 import {Button,Modal,Form,Input,Select} from 'antd';
 import PropertyCard from './propertyCard'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPropertyList } from '../../store/modules/properties';
 const Properties =() =>{
     const [form] = Form.useForm()
     const [isVisible,SetIsVisible] = useState(false)
     const [confirmVisible,SetConfirmVisible] = useState(false)
     const [formData,SetFormData] = useState({})
+    const dispatch = useDispatch()
     const { Option } = Select
     const handelCancel = () =>{
         SetIsVisible(false)
@@ -15,6 +18,13 @@ const Properties =() =>{
     const handelOk = () =>{
         SetIsVisible(false)
     }
+
+    useEffect(()=>{
+    dispatch(getPropertyList())
+    },[dispatch])
+
+    const propertyInfo = useSelector(state=>state.property.propertyInfo)
+
     return( 
         <div className="property">
             <div className="title">
