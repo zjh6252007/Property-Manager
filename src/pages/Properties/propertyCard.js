@@ -1,7 +1,7 @@
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { Card } from 'antd'
 
-const PropertyCard = () =>{
+const PropertyCard = ({title,description}) =>{
     const {Meta} = Card
     return (
         <Card className="property-card"
@@ -19,8 +19,8 @@ const PropertyCard = () =>{
         ]}
       >
         <Meta
-          title="Card title"
-          description="This is the description"
+          title={title}
+          description={description}
         />
       </Card>
     )

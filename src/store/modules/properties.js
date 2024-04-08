@@ -4,7 +4,7 @@ import { request } from "../../utils";
 const properties = createSlice({
     name:"properties",
     initialState:{
-        propertyInfo:{}
+        propertyInfo:[]
     },
     reducers:
     {

@@ -60,10 +60,9 @@ const Properties =() =>{
                 </Form>
             </Modal>
             <div className='prop-grid'>
-            <PropertyCard/>
-            <PropertyCard/>
-            <PropertyCard/>
-            <PropertyCard/>
+            {propertyInfo.map((item,index)=>
+            <PropertyCard key={index} title={item.address} description={item.state}/>
+            )}
             </div>
         </div>
     )
