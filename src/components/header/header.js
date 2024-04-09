@@ -8,9 +8,6 @@ import { useNavigate } from 'react-router-dom';
 const Header = ()=>{
     const dispatch = useDispatch()
     const nav = useNavigate()
-      const cancel = (e) => {
-        message.error('Click on No')
-      }
       const [clicked,SetClicked] = useState(false)
       
       const logout = () =>{
@@ -19,6 +16,9 @@ const Header = ()=>{
         message.success('Log Out')
       }
 
+      const nav_profile = () =>{
+        nav('/profile')
+      }
       useEffect(()=>{
         dispatch(getUserData())
       },[dispatch])
@@ -38,22 +38,23 @@ const Header = ()=>{
         <div className='dropdown'>
             {clicked&&(
                 <ul>
-                    <li>Account Settings</li>
-                    <li onClick={logout}>Sign Out</li>
+                    <li onClick={nav_profile}>Account Settings</li>
+                    <li>
+                    <Popconfirm
+                    title="Log out"
+                    description="Are you sure to logout?"
+                    onConfirm={logout}
+                    okText="Yes"
+                    cancelText="No"
+                    >
+                    <a href="#" onClick={(e)=>e.stopPropagation()} style={{textDecoration:'none',color:'white'}}>Sign Out</a>
+                    </Popconfirm>
+                    </li>
                 </ul>)
-}
+              }
         </div>
         <div className='usericon'>
-        <Popconfirm
-        title="Log out"
-        description="Are you sure to logout?"
-        onConfirm={logout}
-        onCancel={cancel}
-        okText="Yes"
-        cancelText="No"
-        >
-            <UserOutlined/>
-        </Popconfirm>
+        <UserOutlined/>
         </div>
         </div>
         
