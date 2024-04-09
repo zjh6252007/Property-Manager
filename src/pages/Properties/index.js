@@ -4,6 +4,7 @@ import PropertyCard from './propertyCard'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPropertyList,addProperty } from '../../store/modules/properties';
+import AutocompleteInput from '../../components/googleComponents/AutocompleteInput';
 const Properties =() =>{
     const [form] = Form.useForm()
     const [isVisible,SetIsVisible] = useState(false)
@@ -17,9 +18,9 @@ const Properties =() =>{
 
     const handleOk = async() =>{
         const values = await form.validateFields()
-        console.log(values)
         const response = await dispatch(addProperty(values))
         SetIsVisible(false)
+        form.resetFields()
         return response
     }
 
@@ -42,9 +43,10 @@ const Properties =() =>{
                     <Form.Item
                         label="Street Address"
                         name="address"
+                        htmlFor="address"
                         rules={[{ required: true, message: 'Please input the street address!' }]}
                     >
-                    <Input />
+                    <AutocompleteInput/>
                     </Form.Item>
                     <Form.Item
                         label="Property Type"
