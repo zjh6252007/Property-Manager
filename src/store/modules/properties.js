@@ -19,12 +19,10 @@ const properties = createSlice({
 
 const {setPropertyInfo,addPropertyInfo} = properties.actions
 
-const getPropertyList = () =>{
-    return async(dispatch)=>{
+const getPropertyList = () => async(dispatch)=>{
         const res = await request.get('/properties/getAll')
         dispatch(setPropertyInfo(res.data))
         return res.data
-    }
 }
 
 const addProperty = (data) => async(dispatch)=>{

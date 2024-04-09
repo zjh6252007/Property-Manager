@@ -25,12 +25,10 @@ const tenant = createSlice({
 
 const {setTenantInfo,addTenantInfo,updateTenantInfo} = tenant.actions
 
-const getTenantData = () =>{
-    return async(dispatch) =>{
-        const res = await request.get('/tenant/getAll')
-        dispatch(setTenantInfo(res.data))
-        return res
-    }
+const getTenantData = () => async(dispatch) => {
+    const res = await request.get('/tenant/getAll')
+    dispatch(setTenantInfo(res.data))
+    return res
 }
 
 const postTenantData =(data) => async(dispatch) =>{
@@ -49,8 +47,7 @@ const postTenantData =(data) => async(dispatch) =>{
     }
 }
 
-const deleteTenantData = (id) =>{
-    return async(dispatch)=>{
+const deleteTenantData = (id) => async(dispatch)=>{
         try{
             await request.delete(`/tenant/delete/${id}`)
             dispatch(getTenantData())
@@ -58,7 +55,6 @@ const deleteTenantData = (id) =>{
         {
             console.log(error)
         }
-    }
 }
 
 const modifyTenantData = (id,data) => async(dispatch) =>{

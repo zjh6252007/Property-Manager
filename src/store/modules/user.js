@@ -25,8 +25,7 @@ const user = createSlice({
 
 const {setToken,setUserInfo,clearUserInfo} = user.actions
 
-const getUserData = () =>{
-    return async(dispatch,getState) =>{
+const getUserData = () => async(dispatch,getState)=>{
         const token = getState().user.token
         try{
             const res = await request.get('/user/profile',{
@@ -38,10 +37,8 @@ const getUserData = () =>{
         }catch(error){
             console.log(error)
         }
-    }
 }
-const postLoginData = (data) => {
-    return async (dispatch) => {
+const postLoginData = (data) => async(dispatch)=>{
         try {
             const res = await request.post('/user/authorization', data)
             console.log(res)
@@ -56,8 +53,7 @@ const postLoginData = (data) => {
         } catch (error) {
             return false
         }
-    };
-};
+}
 
 const postRegisterData = async(data) =>{
     try{
