@@ -38,8 +38,8 @@ const Header = ()=>{
         <div className='dropdown'>
             {clicked&&(
                 <ul>
-                    <li>{email}</li>
-                    <li>Log Out</li>
+                    <li>Account Settings</li>
+                    <li onClick={logout}>Sign Out</li>
                 </ul>)
 }
         </div>

@@ -10,11 +10,14 @@ const properties = createSlice({
     {
         setPropertyInfo(state,action){
             state.propertyInfo = action.payload
+        },
+        addPropertyInfo(state,action){
+          state.propertyInfo.push(action.payload)  
         }
     }
 })
 
-const {setPropertyInfo} = properties.actions
+const {setPropertyInfo,addPropertyInfo} = properties.actions
 
 const getPropertyList = () =>{
     return async(dispatch)=>{
@@ -24,7 +27,21 @@ const getPropertyList = () =>{
     }
 }
 
-export {getPropertyList}
+const addProperty = (data) => async(dispatch)=>{
+    try{
+    const res = await request.post('/properties/add',data,{
+        headers:{
+            'Content-Type':'application/json'
+        }
+    })
+    dispatch(addPropertyInfo(res.data))
+    return res
+    }
+    catch(error){
+        console.log(error)
+    }
+}
+export {getPropertyList,addProperty}
 
 const propertiesReducer = properties.reducer
 

@@ -3,7 +3,7 @@ import {Button,Modal,Form,Input,Select} from 'antd';
 import PropertyCard from './propertyCard'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPropertyList } from '../../store/modules/properties';
+import { getPropertyList,addProperty } from '../../store/modules/properties';
 const Properties =() =>{
     const [form] = Form.useForm()
     const [isVisible,SetIsVisible] = useState(false)
@@ -15,8 +15,12 @@ const Properties =() =>{
         SetIsVisible(false)
     }
 
-    const handelOk = () =>{
+    const handleOk = async() =>{
+        const values = await form.validateFields()
+        console.log(values)
+        const response = await dispatch(addProperty(values))
         SetIsVisible(false)
+        return response
     }
 
     useEffect(()=>{
@@ -33,14 +37,15 @@ const Properties =() =>{
                     <Button type="primary" size='large' onClick={()=>SetIsVisible(true)}>Add a property</Button>
                 </div>
             </div>
-            <Modal title="Add a property" open={isVisible} onCancel={handelCancel}>
+            <Modal title="Add a property" open={isVisible} onOk={handleOk} onCancel={handelCancel}>
                 <Form form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} layout='vertical'>
                     <Form.Item
                         label="Street Address"
-                        name="streetAddress"
-                        rules={[{ required: true, message: 'Please input the first name!' }]}
+                        name="address"
+                        rules={[{ required: true, message: 'Please input the street address!' }]}
                     >
                     <Input />
+                    </Form.Item>
                     <Form.Item
                         label="Property Type"
                         name="propertyType"
@@ -52,13 +57,12 @@ const Properties =() =>{
                     </Select>
                     </Form.Item>
                     <Form.Item
-                        label="Unit number (if applicable)"
+                        label="Unit number"
                         name="unitNumber">
-                    <Input />
+                    <Input prefix="#"/>
                     </Form.Item>
-          </Form.Item>
-                </Form>
-            </Modal>
+                    </Form>
+                </Modal>
             <div className='prop-grid'>
             {propertyInfo.map((item,index)=>
             <PropertyCard key={index} title={item.address} description={item.state}/>
