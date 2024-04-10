@@ -39,7 +39,17 @@ const addProperty = (data) => async(dispatch)=>{
         console.log(error)
     }
 }
-export {getPropertyList,addProperty}
+
+const deleteProperty = (id) =>async(dispatch)=>{
+    try{
+        const res = await request.delete(`/properties/delete/${id}`)
+        dispatch(getPropertyList())
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
+export {getPropertyList,addProperty,deleteProperty}
 
 const propertiesReducer = properties.reducer
 

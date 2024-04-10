@@ -28,7 +28,7 @@ const Properties =() =>{
     dispatch(getPropertyList())
     },[dispatch])
 
-    const propertyInfo = useSelector(state=>state.property.propertyInfo)
+    const propertyInfo = useSelector(state=>state.property.propertyInfo || [])
 
     return( 
         <div className="property">
@@ -78,7 +78,7 @@ const Properties =() =>{
                 propertyAddress = item.address
             }
             return(
-            <PropertyCard key={index} title={propertyAddress} description={description}/>
+            <PropertyCard id={item.id} key={index} title={propertyAddress} description={description}/>
             )
             })}
             </div>
