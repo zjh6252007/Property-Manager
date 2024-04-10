@@ -1,15 +1,16 @@
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { Card } from 'antd'
-
-const PropertyCard = ({title,description}) =>{
+import defualtPropertyImg from '../../assets/icons/property.png'
+import "./propertyCard.scss"
+const PropertyCard = ({title,description,src}) =>{
     const {Meta} = Card
     return (
         <Card className="property-card"
-        style={{ width: 450, boxShadow: "4px 4px 10px 0 #babab0"}}
         cover={
           <img
-            alt="example"
-            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+          className='property-img'
+          alt="property Img"
+          src= {defualtPropertyImg}
           />
         }
         actions={[
@@ -18,7 +19,7 @@ const PropertyCard = ({title,description}) =>{
           <EllipsisOutlined key="ellipsis" />,
         ]}
       >
-        <Meta
+        <Meta className='property-address'
           title={title}
           description={description}
         />

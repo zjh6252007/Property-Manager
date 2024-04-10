@@ -4,8 +4,10 @@ import { useForm } from 'antd/es/form/Form';
 import { useState } from 'react';
 import { changePwd } from '../../store/modules/user';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 const Profile =()=>{
     const [form] = useForm()
+    const nav = useNavigate()
     const [isVisible,SetIsVisible] = useState(false)
     const [pwdInfo,SetPwdInfo] = useState('')
     const email = useSelector(state=>state.user.userInfo.email)
@@ -28,7 +30,8 @@ const Profile =()=>{
         message.success('change password succes')
         SetPwdInfo('')
         SetIsVisible(false)
-        form.resetFields()}
+        form.resetFields()
+        nav('/login')}
     }
     return (
         <div className="profile">
