@@ -30,15 +30,6 @@ const PropertyForm = ({form}) =>{
         name="unitNumber">
     <Input prefix="#"/>
     </Form.Item>
-    <Form.Item
-        label="Rental Status"
-        name="state"
-        rules={[{required:true}]}>
-    <Select placeholder="Please select the rental status">
-        <Option value="empty">Empty</Option>
-        <Option value="occupied">Occupied</Option>
-    </Select>
-    </Form.Item>
     </Form>
     )
 }

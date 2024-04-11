@@ -1,29 +1,41 @@
 import './index.scss'
-import {Button,Modal,Form,Input,Select} from 'antd';
+import {Button,Modal,Form,Select} from 'antd';
 import PropertyCard from '../../components/propertyComponents/propertyCard'
 import PropertyForm from '../../components/propertyComponents/propertyForm';
+import DetailForm from '../../components/propertyComponents/detailForm';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPropertyList,addProperty } from '../../store/modules/properties';
-import AutocompleteInput from '../../components/googleComponents/AutocompleteInput';
+
 const Properties =() =>{
     const [form] = Form.useForm()
     const [isVisible,SetIsVisible] = useState(false)
-    const [confirmVisible,SetConfirmVisible] = useState(false)
-    const [formData,SetFormData] = useState({})
+    const [formData,setFormData] = useState({})
+    const [isSecondFormVisible,SetIsSecondFormVisible] = useState(false)
     const dispatch = useDispatch()
-    const { Option } = Select
     const handelCancel = () =>{
+        if(isSecondFormVisible){
+            SetIsSecondFormVisible(false)
+        }else{
         SetIsVisible(false)
+        form.resetFields()
+        }
     }
 
     const handleOk = async() =>{
         try{
         const values = await form.validateFields()
-        const response = await dispatch(addProperty(values))
+        if(!isSecondFormVisible){
+            setFormData(values)
+            SetIsSecondFormVisible(true)
+        }else{
+        const finalData = {...formData,...values}
+        const response = await dispatch(addProperty(finalData))
         SetIsVisible(false)
+        SetIsSecondFormVisible(false)
         form.resetFields()
         return response}
+        }
         catch(error){
             console.log(error)
         }
@@ -43,9 +55,13 @@ const Properties =() =>{
                     <Button type="primary" size='large' onClick={()=>SetIsVisible(true)}>Add a property</Button>
                 </div>
             </div>
-            <Modal title="Add a property" open={isVisible} onOk={handleOk} onCancel={handelCancel}>
-                <PropertyForm form={form}/>
+            <Modal title={isSecondFormVisible?"Add detail Infomation":"Add a Property"} open={isVisible} onOk={handleOk} onCancel={handelCancel}
+            cancelText={isSecondFormVisible?"Back":"cancel"}
+            okText={isSecondFormVisible?"Submit":"OK"}>
+                {!isSecondFormVisible?(<PropertyForm form={form}/>):(<DetailForm form={form}/>)}
             </Modal>
+
+
             <div className='prop-grid'>
             {propertyInfo.map((item,index)=>{
             const address = item.address ||''

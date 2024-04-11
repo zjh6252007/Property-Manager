@@ -12,7 +12,7 @@ const properties = createSlice({
             state.propertyInfo = action.payload
         },
         addPropertyInfo(state,action){
-          state.propertyInfo.push(action.payload)  
+          state.propertyInfo = [...state.propertyInfo,action.payload]
         }
     }
 })
@@ -33,6 +33,7 @@ const addProperty = (data) => async(dispatch)=>{
         }
     })
     dispatch(addPropertyInfo(res.data))
+    console.log(res.data)
     return res
     }
     catch(error){
