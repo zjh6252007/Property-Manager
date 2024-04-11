@@ -5,7 +5,7 @@ import "./propertyCard.scss"
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteProperty } from '../../store/modules/properties';
-const PropertyCard = ({id,title,description,src}) =>{
+const PropertyCard = ({id,title,description,price,status,src}) =>{
     const {Meta} = Card
     const [isVisible,SetIsVisible] = useState(false)
     const [selectedId,SetSelectedId] = useState()
@@ -39,10 +39,21 @@ const PropertyCard = ({id,title,description,src}) =>{
           <DeleteOutlined key="delete" onClick={()=>showModal(id)} />
         ]}
       >
-        <Meta className='property-address'
-          title={title}
-          description={description}
-        />
+        <div className='card-content'>
+          <div className='address-info'>
+            <h4>{title}</h4>
+            <p className='zipcode'>{description}</p>
+          </div>
+
+          <div className='otherinfo'>
+            <div className='price'>
+            <h4>${price}/Month</h4>
+            </div>
+            <div className='rentalstatus'>
+              <h4 style={{color:status==='empty'?'green':'red',textTransform:'uppercase'}}>{status}</h4>
+            </div>
+          </div>
+        </div>
       </Card>
       <Modal
         title = "Confirm Delete"

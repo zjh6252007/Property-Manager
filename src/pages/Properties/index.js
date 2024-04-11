@@ -35,11 +35,11 @@ const Properties =() =>{
     const handleOk = async() =>{
         try{
         const values = await form.validateFields()
-        if(!isSecondFormVisible){
+        if(!isSecondFormVisible){ //load secondary menu
             setFormData(values)
             SetIsSecondFormVisible(true)
         }else{
-        const finalData = {...formData,...values}
+        const finalData = {...formData,...values} // merge the infomation from first form and second form
         const response = await dispatch(addProperty(finalData))
         SetIsVisible(false)
         SetIsSecondFormVisible(false)
@@ -51,8 +51,8 @@ const Properties =() =>{
         }
     }
 
-    const currentPropertyCards = propertyInfo.slice(
-        (currentPage - 1) * pageSize,
+    const currentPropertyCards = propertyInfo.slice( //dynamiclly load property info by current page and total elements on the page
+        (currentPage - 1) * pageSize, 
         currentPage * pageSize
     )
 
@@ -78,13 +78,13 @@ const Properties =() =>{
             let propertyAddress = ''
             let description = ''
             if(commaIndex !== -1){
-                propertyAddress = item.address.substring(0,commaIndex).trim()
+                propertyAddress = item.address.substring(0,commaIndex).trim() //use substring to separate the address information and state,zip code.
                 description = item.address.substring(commaIndex + 1).trim()
             }else{
                 propertyAddress = item.address
             }
             return(
-            <PropertyCard id={item.id} key={index} title={propertyAddress} description={description}/>
+            <PropertyCard id={item.id} key={index} title={propertyAddress} description={description} price={item.price} status={item.state}/>
             )
             })}
             </div>
