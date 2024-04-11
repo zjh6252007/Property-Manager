@@ -1,6 +1,7 @@
 import './index.scss'
 import {Button,Modal,Form,Input,Select} from 'antd';
-import PropertyCard from '../../components/propertyCard/propertyCard'
+import PropertyCard from '../../components/propertyComponents/propertyCard'
+import PropertyForm from '../../components/propertyComponents/propertyForm';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPropertyList,addProperty } from '../../store/modules/properties';
@@ -17,11 +18,15 @@ const Properties =() =>{
     }
 
     const handleOk = async() =>{
+        try{
         const values = await form.validateFields()
         const response = await dispatch(addProperty(values))
         SetIsVisible(false)
         form.resetFields()
-        return response
+        return response}
+        catch(error){
+            console.log(error)
+        }
     }
 
     useEffect(()=>{
@@ -39,32 +44,8 @@ const Properties =() =>{
                 </div>
             </div>
             <Modal title="Add a property" open={isVisible} onOk={handleOk} onCancel={handelCancel}>
-                <Form form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} layout='vertical'>
-                    <Form.Item
-                        label="Street Address"
-                        name="address"
-                        htmlFor="address"
-                        rules={[{ required: true, message: 'Please input the street address!' }]}
-                    >
-                    <AutocompleteInput/>
-                    </Form.Item>
-                    <Form.Item
-                        label="Property Type"
-                        name="propertyType"
-                        rules={[{required:true, message:'Please select the property type'}]}>
-                    <Select placeholder="Please select a home type">
-                        <Option value="House">House</Option>
-                        <Option value="Townhouse">Townhouse</Option>
-                        <Option value="Condo/Apartment">Condo/Apartment</Option>
-                    </Select>
-                    </Form.Item>
-                    <Form.Item
-                        label="Unit number"
-                        name="unitNumber">
-                    <Input prefix="#"/>
-                    </Form.Item>
-                    </Form>
-                </Modal>
+                <PropertyForm form={form}/>
+            </Modal>
             <div className='prop-grid'>
             {propertyInfo.map((item,index)=>{
             const address = item.address ||''

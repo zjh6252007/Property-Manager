@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Space,Popconfirm,Table, Button ,Modal,Form,Input} from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
+import TenantForm from '../../components/tenantComponents/tenantForm';
 import { getTenantData,postTenantData,deleteTenantData,modifyTenantData } from '../../store/modules/tenant';
 import './index.scss'
 import { useForm } from 'antd/es/form/Form';
@@ -111,45 +112,7 @@ return(
             <Table columns={columns} dataSource={tenantData} rowKey="id"/>  
         </div>
         <Modal title="Add tenant" open={isVisible} onOk={handelOk} onCancel={handelCancel}>
-        <Form
-          form = {form}
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          initialValues={{ remember: true }}
-        >
-          <Form.Item
-            label="First Name"
-            name="firstName"
-            rules={[{ required: true, message: 'Please input the first name!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Last Name"
-            name="lastName"
-            rules={[{ required: true, message: 'Please input the last name!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Email"
-            name="email"
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Phone"
-            name="phone"
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Address"
-            name="address"
-          >
-            <Input />
-          </Form.Item>
-        </Form>
+          <TenantForm form={form}/>
         </Modal>
     </div>
 
