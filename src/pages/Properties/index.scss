@@ -13,3 +13,9 @@
     grid-template-columns: repeat(3,1fr);
     grid-gap:3vw 10px;
 }
+
+.pageination-container{
+    display: flex;
+    justify-content: center; 
+    margin-top: 30px;
+}

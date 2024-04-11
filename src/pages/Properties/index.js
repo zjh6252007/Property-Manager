@@ -1,5 +1,5 @@
 import './index.scss'
-import {Button,Modal,Form,Select} from 'antd';
+import {Button,Modal,Form,Pagination} from 'antd';
 import PropertyCard from '../../components/propertyComponents/propertyCard'
 import PropertyForm from '../../components/propertyComponents/propertyForm';
 import DetailForm from '../../components/propertyComponents/detailForm';
@@ -8,11 +8,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPropertyList,addProperty } from '../../store/modules/properties';
 
 const Properties =() =>{
+    
     const [form] = Form.useForm()
     const [isVisible,SetIsVisible] = useState(false)
     const [formData,setFormData] = useState({})
+    const [currentPage,setCurrentPage] = useState(1)
+    const [pageSize,setPageSize] = useState(6)
     const [isSecondFormVisible,SetIsSecondFormVisible] = useState(false)
     const dispatch = useDispatch()
+
+    useEffect(()=>{
+        dispatch(getPropertyList())
+        },[dispatch])
+    
+    const propertyInfo = useSelector(state=>state.property.propertyInfo || [])
+    
     const handelCancel = () =>{
         if(isSecondFormVisible){
             SetIsSecondFormVisible(false)
@@ -41,11 +51,10 @@ const Properties =() =>{
         }
     }
 
-    useEffect(()=>{
-    dispatch(getPropertyList())
-    },[dispatch])
-
-    const propertyInfo = useSelector(state=>state.property.propertyInfo || [])
+    const currentPropertyCards = propertyInfo.slice(
+        (currentPage - 1) * pageSize,
+        currentPage * pageSize
+    )
 
     return( 
         <div className="property">
@@ -63,7 +72,7 @@ const Properties =() =>{
 
 
             <div className='prop-grid'>
-            {propertyInfo.map((item,index)=>{
+            {currentPropertyCards.map((item,index)=>{
             const address = item.address ||''
             const commaIndex = address.indexOf(',')
             let propertyAddress = ''
@@ -78,6 +87,14 @@ const Properties =() =>{
             <PropertyCard id={item.id} key={index} title={propertyAddress} description={description}/>
             )
             })}
+            </div>
+            <div className='pageination-container'>
+            <Pagination
+                current={currentPage}
+                pageSize={pageSize}
+                total={propertyInfo.length}
+                onChange={(page)=>setCurrentPage(page)}
+                />
             </div>
         </div>
     )
