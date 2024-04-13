@@ -26,12 +26,24 @@ initialValues={{ remember: true }}
 <Form.Item
   label="Email"
   name="email"
+  rules={[
+    {
+        type:'email',
+        message:'The input is not valid E-mail'
+    }
+  ]}
 >
   <Input />
 </Form.Item>
 <Form.Item
   label="Phone"
   name="phone"
+  rules={[
+    {
+        pattern:new RegExp(/^[0-9]{10}$/),
+        message:'Please input a valid phone number'
+    }
+  ]}
 >
   <Input />
 </Form.Item>

@@ -35,6 +35,9 @@ const Properties =() =>{
     const handleOk = async() =>{
         try{
         const values = await form.validateFields()
+        if(values.unitNumber){
+            values.address += ` #${values.unitNumber}`
+        }
         if(!isSecondFormVisible){ //load secondary menu
             setFormData(values)
             SetIsSecondFormVisible(true)

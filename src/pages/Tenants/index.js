@@ -48,6 +48,11 @@ const columns = [
     key:'address'
   },
   {
+    title:'Email',
+    dataIndex:'email',
+    key:'email'
+  },
+  {
     title:'Telephone',
     dataIndex:'phone',
     key:'phone'
