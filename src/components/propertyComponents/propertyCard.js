@@ -1,28 +1,44 @@
 import { EditOutlined, DeleteOutlined} from '@ant-design/icons';
-import { Card , Modal} from 'antd'
+import { Card , Form, Modal} from 'antd'
 import defualtPropertyImg from '../../assets/icons/property.png'
 import "./propertyCard.scss"
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteProperty } from '../../store/modules/properties';
+import { deleteProperty,modifyProperty} from '../../store/modules/properties';
+import ModifyForm from './modifyForm';
 const PropertyCard = ({id,title,description,price,status,src}) =>{
     const {Meta} = Card
     const [isVisible,SetIsVisible] = useState(false)
+    const [isModifyVisible,SetIsModifyVisible] = useState(false)
     const [selectedId,SetSelectedId] = useState()
+    const [form] = Form.useForm()
     const dispatch = useDispatch()
     const showModal =(id) =>{
       SetSelectedId(id)
       SetIsVisible(true)
     }
+    const showModifyModal =(id)=>{
+      SetSelectedId(id)
+      SetIsModifyVisible(true)
+    }
     const handelCancel=()=>{
+      if(isVisible){
       SetIsVisible(false)
-      SetSelectedId(null)
+      SetSelectedId(null)}
+      else{
+        SetIsModifyVisible(false)
+      }
     }
 
     const handelOk = async() =>{
       await dispatch(deleteProperty(selectedId))
       SetIsVisible(false)
       SetSelectedId(null)
+    }
+
+    const handelModify = async(id,data)=>{
+      await dispatch(modifyProperty(id,data))
+      SetIsModifyVisible(false)
     }
     return (
       <>
@@ -35,7 +51,7 @@ const PropertyCard = ({id,title,description,price,status,src}) =>{
           />
         }
         actions={[
-          <EditOutlined key="edit" />,
+          <EditOutlined key="edit" onClick={()=>showModifyModal(id)} />,
           <DeleteOutlined key="delete" onClick={()=>showModal(id)} />
         ]}
       >
@@ -62,6 +78,13 @@ const PropertyCard = ({id,title,description,price,status,src}) =>{
         onOk={handelOk}
         >
           <p>Are you sure you want to delete this property?</p>
+      </Modal>
+      <Modal
+        title= "Modify Property"
+        open = {isModifyVisible}
+        onCancel={handelCancel}
+        onOk={()=>form.submit()}>
+          <ModifyForm form={form} onSubmit={handelModify} id={selectedId}></ModifyForm>
       </Modal>
       </>
     )

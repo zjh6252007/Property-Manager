@@ -13,11 +13,18 @@ const properties = createSlice({
         },
         addPropertyInfo(state,action){
           state.propertyInfo = [...state.propertyInfo,action.payload]
+        },
+        updatePropertyInfo(state,action){
+            const {id,data} = action.payload
+            const index = state.propertyInfo.findIndex(property => property.id === id)
+            if (index !== -1){
+                state.propertyInfo[index] = {...state.propertyInfo[index],...data}
+            }
         }
     }
 })
 
-const {setPropertyInfo,addPropertyInfo} = properties.actions
+const {setPropertyInfo,addPropertyInfo,updatePropertyInfo} = properties.actions
 
 const getPropertyList = () => async(dispatch)=>{
         const res = await request.get('/properties/getAll')
@@ -25,6 +32,14 @@ const getPropertyList = () => async(dispatch)=>{
         return res.data
 }
 
+const fetchProperty = (id) =>async()=>{
+    try{
+        const res = await request.get(`/properties/${id}`)
+        return res.data
+    }catch(error){
+        console.log(error)
+    }
+}
 const addProperty = (data) => async(dispatch)=>{
     try{
     const res = await request.post('/properties/add',data,{
@@ -50,7 +65,21 @@ const deleteProperty = (id) =>async(dispatch)=>{
         console.log(error)
     }
 }
-export {getPropertyList,addProperty,deleteProperty}
+
+const modifyProperty = (id,data) =>async(dispatch)=>{
+    try{
+        const res = await request.put(`/properties/modify/${id}`,data,{
+            headers:{
+                'Content-Type':'application/json'
+            }
+        })
+        dispatch(updatePropertyInfo({id,data:res.data}))
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
+export {getPropertyList,addProperty,deleteProperty,modifyProperty,fetchProperty}
 
 const propertiesReducer = properties.reducer
 

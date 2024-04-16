@@ -73,7 +73,6 @@ const Properties =() =>{
                 {!isSecondFormVisible?(<PropertyForm form={form}/>):(<DetailForm form={form}/>)}
             </Modal>
 
-
             <div className='prop-grid'>
             {currentPropertyCards.map((item,index)=>{
             const address = item.address ||''
