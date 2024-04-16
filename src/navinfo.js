@@ -3,7 +3,7 @@ import {HomeOutlined,FileOutlined,KeyOutlined,FolderOpenOutlined,UserOutlined} f
 export const navinfo = [
     {name:'Home',path:'/home',icon:<HomeOutlined />},
     {name:'Properties',path:'/property',icon:<FileOutlined/>},
-    {name:'Manage',path:'/manage',icon:<KeyOutlined/>},
+    {name:'Repair',path:'/repair',icon:<KeyOutlined/>},
     {name:'Tenants',path:'/tenant',icon:<FolderOpenOutlined/>},
     {name:'Documents',path:'/documents',icon:<FolderOpenOutlined/>},
     {name:'Profile',path:'/profile',icon:<UserOutlined />}

@@ -36,7 +36,10 @@ const getUserData = () => async(dispatch,getState)=>{
             dispatch(setUserInfo(res.data))
         }catch(error){
             console.log(error)
+            if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+                dispatch(clearUserInfo());
         }
+}
 }
 const postLoginData = (data) => async(dispatch)=>{
         try {
@@ -51,6 +54,7 @@ const postLoginData = (data) => async(dispatch)=>{
                 return false
             }
         } catch (error) {
+            console.error("Login failed:", error);
             return false
         }
 }
