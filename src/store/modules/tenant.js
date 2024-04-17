@@ -71,6 +71,15 @@ const modifyTenantData = (id,data) => async(dispatch) =>{
         return false
     }
 }
+
+const getTenantById = (id) => async()=>{
+    try{
+        const res = await request.get(`/tenant/${id}`)
+        return res.data
+    }catch(error){
+        console.log(error)
+    }
+}
 export {getTenantData,postTenantData,deleteTenantData,modifyTenantData}
 
 const tenantReducer = tenant.reducer

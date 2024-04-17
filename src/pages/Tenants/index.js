@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Space,Popconfirm,Table, Button ,Modal,Form,Input} from 'antd';
+import { Space,Popconfirm,Table, Button ,Modal} from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import TenantForm from '../../components/tenantComponents/tenantForm';
 import { getTenantData,postTenantData,deleteTenantData,modifyTenantData } from '../../store/modules/tenant';

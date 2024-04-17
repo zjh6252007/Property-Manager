@@ -79,7 +79,16 @@ const modifyProperty = (id,data) =>async(dispatch)=>{
         console.log(error)
     }
 }
-export {getPropertyList,addProperty,deleteProperty,modifyProperty,fetchProperty}
+
+const getPropertyById = (id) =>async()=>{
+    try{
+        const res = await request.get(`properties/${id}`)
+        return res.data
+    }catch(error){
+        console.log(error)
+    }
+}
+export {getPropertyList,addProperty,deleteProperty,modifyProperty,fetchProperty,getPropertyById}
 
 const propertiesReducer = properties.reducer
 
