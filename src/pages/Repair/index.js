@@ -56,19 +56,25 @@ const Repair = () =>{
         {
             title:'Status',
             dataIndex:'status',
-            key:'status'
+            key:'status',
+            render:(status)=>{
+                let color = `black`
+                if(status === 'Open'){
+                    color='red'
+                }else if(status=== 'Pending'){
+                    color = 'yellow'
+                }else if(status === 'Close'){
+                    color = 'green'
+                }
+                return <span style={{color}}>{status}</span>
+            }
           },
         {
           title:'Action',
           key:'action',
           render:(_,record) =>(
               <Space size="middle">
-              <Popconfirm
-                  description="Confirm to delete"
-                  >
               <Button>Delete</Button>
-              </Popconfirm>
-              <Button >Modify</Button>
               </Space>
           )
         }
