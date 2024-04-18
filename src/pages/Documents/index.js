@@ -1,18 +1,29 @@
 import './index.scss'
-import { Button, message, Upload, Space, Table, Popconfirm} from 'antd';
+import { Button, message, Upload, Space, Table, Popconfirm,Spin} from 'antd';
 import { getContractList, downloadContract, uploadContract, deleteContract} from '../../store/modules/contract';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const Documents =() =>
 {
 
     const dispatch = useDispatch()
     useEffect(()=>{
-      dispatch(getContractList())
-    },[dispatch])
+      const fetchContracts = async()=>{
+        setLoading(true)
+        try{
+          await dispatch(getContractList())
+        }catch(error){
+          message.error("Failed to load contracts")
+          console.error(error)
+        }finally{
+          setLoading(false)
+        }
+      }
+      fetchContracts()
+},[dispatch])
 
-    
+    const [loading,setLoading] = useState(false)
     const handelUpload = ({file}) =>{
         dispatch(uploadContract(file))
         .then(()=>{
@@ -79,7 +90,7 @@ const Documents =() =>
     }
   ]
 
-    return(
+return(
 <div className="document">
     <div className='title'>
     Documents
@@ -90,9 +101,11 @@ const Documents =() =>
         </div>
     </div>
 
+<Spin spinning={loading}>
     <div className='contract'>
         <Table columns={columns} dataSource={contractData} />
     </div>  
+</Spin>
 </div>
     )
 }
