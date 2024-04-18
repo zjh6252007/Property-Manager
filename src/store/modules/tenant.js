@@ -80,7 +80,7 @@ const getTenantById = (id) => async()=>{
         console.log(error)
     }
 }
-export {getTenantData,postTenantData,deleteTenantData,modifyTenantData}
+export {getTenantData,postTenantData,deleteTenantData,modifyTenantData,getTenantById}
 
 const tenantReducer = tenant.reducer
 
