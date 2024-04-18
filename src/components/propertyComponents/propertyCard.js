@@ -6,13 +6,18 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteProperty,modifyProperty} from '../../store/modules/properties';
 import ModifyForm from './modifyForm';
+import { useNavigate } from 'react-router-dom';
 const PropertyCard = ({id,title,description,price,status,src}) =>{
-    const {Meta} = Card
     const [isVisible,SetIsVisible] = useState(false)
     const [isModifyVisible,SetIsModifyVisible] = useState(false)
     const [selectedId,SetSelectedId] = useState()
     const [form] = Form.useForm()
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const goToPropertyDetails = (propertyId) =>{
+      navigate(`/property/${propertyId}`)
+    }
     const showModal =(id) =>{
       SetSelectedId(id)
       SetIsVisible(true)
@@ -42,7 +47,7 @@ const PropertyCard = ({id,title,description,price,status,src}) =>{
     }
     return (
       <>
-      <Card className="property-card"
+      <Card className="property-card" onClick={()=>goToPropertyDetails(id)}
         cover={
           <img
           className='property-img'
@@ -51,8 +56,8 @@ const PropertyCard = ({id,title,description,price,status,src}) =>{
           />
         }
         actions={[
-          <EditOutlined key="edit" onClick={()=>showModifyModal(id)} />,
-          <DeleteOutlined key="delete" onClick={()=>showModal(id)} />
+          <EditOutlined key="edit" onClick={(e) => {e.stopPropagation(); showModifyModal(id);}} />,
+          <DeleteOutlined key="delete" onClick={(e) => {e.stopPropagation(); showModal(id);}} />
         ]}
       >
         <div className='card-content'>

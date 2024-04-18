@@ -1,0 +1,22 @@
+.propertyDetails{
+    font-size: 40px;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.title{
+    display: flex;
+    flex-direction: column;
+}
+
+.title p{
+    height: 20px;
+}
+
+.description{
+    font-size: 30px;
+    border-bottom: 2px solid #dddddd63;
+    height: 50px;
+}

@@ -32,14 +32,6 @@ const getPropertyList = () => async(dispatch)=>{
         return res.data
 }
 
-const fetchProperty = (id) =>async()=>{
-    try{
-        const res = await request.get(`/properties/${id}`)
-        return res.data
-    }catch(error){
-        console.log(error)
-    }
-}
 const addProperty = (data) => async(dispatch)=>{
     try{
     const res = await request.post('/properties/add',data,{
@@ -88,7 +80,7 @@ const getPropertyById = (id) =>async()=>{
         console.log(error)
     }
 }
-export {getPropertyList,addProperty,deleteProperty,modifyProperty,fetchProperty,getPropertyById}
+export {getPropertyList,addProperty,deleteProperty,modifyProperty,getPropertyById}
 
 const propertiesReducer = properties.reducer
 
