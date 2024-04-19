@@ -12,14 +12,15 @@ const Sidebar = () =>{
     const [activeIndex,setactiveIndex] = useState(location.pathname)
 
     const nav =(path)=>()=>{
-        let navpath = path
         setactiveIndex(path)
-        navigate(navpath)
+        navigate(path)
     }
+
+
     return(
      <div className="sidebar">
         <div className="home-logo">
-            <img src={homeIcon} alt="home logo"/>
+            <img src={homeIcon} alt="home logo" onClick={()=>nav('/home')()}/>
         </div>
 
 
