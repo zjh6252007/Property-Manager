@@ -6,7 +6,8 @@ const user = createSlice({
     name:'user',
     initialState:{
         token:getToken()||'',
-        userInfo:{}
+        userInfo:{},
+        emailVerificationMessage:''
     },
     reducers:{
         setToken(state,action){
@@ -19,11 +20,14 @@ const user = createSlice({
         clearUserInfo(state){
             state.token=''
             deleteToken()
+        },
+        setEmailVerificationMessage(state,action){
+            state.emailVerificationMessage = action.payload
         }
     }
 })
 
-const {setToken,setUserInfo,clearUserInfo} = user.actions
+const {setToken,setUserInfo,clearUserInfo,setEmailVerificationMessage} = user.actions
 
 const getUserData = () => async(dispatch,getState)=>{
         const token = getState().user.token
@@ -78,7 +82,13 @@ const changePwd = async(data) =>{
     })
     return res
 }
-export {setToken,setUserInfo,getUserData,postLoginData,postRegisterData,clearUserInfo,changePwd}
+
+const verfiyEmail = (token) =>async(dispatch) =>{
+    const res = await request.get(`/user/verify-email?token=${token}`)
+    dispatch(setEmailVerificationMessage(res.data))
+    return res
+}
+export {setToken,setUserInfo,getUserData,postLoginData,postRegisterData,clearUserInfo,changePwd,verfiyEmail}
 
 const userReducer = user.reducer
 

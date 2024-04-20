@@ -11,6 +11,7 @@ import Sidebar from '../components/sidebar/sidebar.js'
 import Repair from '../pages/Repair/index.js'
 import Tenants from '../pages/Tenants/index.js'
 import PropertyDetails from '../pages/Properties/PropertyDetails/index.js'
+import Verify from '../pages/Verfiy/index.js'
 const router = createBrowserRouter([
     {
         path:'/',
@@ -50,6 +51,9 @@ const router = createBrowserRouter([
     },{
         path:'/sidebar',
         element:<Sidebar/>
+    },{
+        path:'/user/verify-email',
+        element:<Verify/>
     }
 ])
 
