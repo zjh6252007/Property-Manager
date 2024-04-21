@@ -26,3 +26,22 @@
 .info-text{
     margin-right: 20px;
 }
+
+.email-verify{
+    pad: 20px;
+}
+
+.email-button{
+    display: flex;
+    flex-direction: column;
+}
+.resend-button{
+    margin-top: 20px;
+}
+.resend-button:disabled {
+    color: #534c4c;
+    background-color: #1890ff; 
+    border-color: #1890ff; 
+    cursor: not-allowed; 
+    opacity: 1;  
+}

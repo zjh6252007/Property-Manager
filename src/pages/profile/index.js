@@ -3,9 +3,12 @@ import { Button,Modal,Form,Input,message} from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { useState } from 'react';
 import { changePwd } from '../../store/modules/user';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import ChangePasswordForm from '../../components/profileComponents/ChangePasswordForm';
+import { CheckCircleTwoTone,ExclamationCircleTwoTone} from '@ant-design/icons';
+import { resendVerifyEmail } from '../../store/modules/user';
+
 const Profile =()=>{
     const [form] = useForm()
     const nav = useNavigate()
@@ -13,6 +16,22 @@ const Profile =()=>{
     const [pwdInfo,SetPwdInfo] = useState('')
     const email = useSelector(state=>state.user.userInfo.email)
     const username = useSelector(state=>state.user.userInfo.username)
+    const verified = useSelector(state=>state.user.userInfo.emailVerified)
+    const [messageApi, contextHolder] = message.useMessage();
+    const emailVerificationMessage = useSelector(state=>state.user.emailVerificationMessage)
+
+    const dispatch = useDispatch()
+
+    const handleClick=() =>{
+        dispatch(resendVerifyEmail()).then((res)=>{
+            if(res.code === 0){
+                message.success('Verification email sent successfully.')
+            }else{
+                message.error(res.message)
+            }
+        })
+
+    }
     const showModal=()=>{
         SetIsVisible(true)
     }
@@ -55,8 +74,23 @@ const Profile =()=>{
                 <div className='accordion-item'>
                     <h5 className='info-title'>Email</h5>
                     <div className='info-area'>
-                        <p className='info-text'>{email}</p>
+                        <div className='info-text'>
+                          <p>{email}</p>
+                          <div className='email-verify'>
+                            {
+                                verified?
+                                <p><CheckCircleTwoTone twoToneColor="#52c41a" />Email is verified.</p>
+                                :
+                                <p><ExclamationCircleTwoTone twoToneColor="#ff0000"/> Email not verified.</p>
+                            }
+                          </div>
+                        </div>
+                        <div className='email-button'>
                         <Button className="info-button" type="primary" size='large'>Edit</Button>
+                        {!verified?
+                        <Button className='resend-button' type='primary' size='large' onClick={handleClick}>Resend</Button>:<></>
+                        }
+                        </div>
                     </div>
                 </div>
 

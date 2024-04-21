@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { verfiyEmail } from "../../store/modules/user"
 import { useLocation } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"

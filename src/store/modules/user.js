@@ -85,10 +85,24 @@ const changePwd = async(data) =>{
 
 const verfiyEmail = (token) =>async(dispatch) =>{
     const res = await request.get(`/user/verify-email?token=${token}`)
-    dispatch(setEmailVerificationMessage(res.data))
+    if(res.code === 0){
+    dispatch(setEmailVerificationMessage(res.data))}
+    else{
+        dispatch(setEmailVerificationMessage(res.message))
+    }
     return res
 }
-export {setToken,setUserInfo,getUserData,postLoginData,postRegisterData,clearUserInfo,changePwd,verfiyEmail}
+
+const resendVerifyEmail = () =>async(dispatch) =>{
+    const res = await request.get('/user/resend-verification')
+    if(res.code === 0){
+        dispatch(setEmailVerificationMessage(res.data))}
+        else{
+            dispatch(setEmailVerificationMessage(res.message))
+    }
+    return res
+}
+export {setToken,setUserInfo,getUserData,postLoginData,postRegisterData,clearUserInfo,changePwd,verfiyEmail,resendVerifyEmail}
 
 const userReducer = user.reducer
 
