@@ -8,15 +8,19 @@
 
 .title{
     display: flex;
-    flex-direction: column;
+    flex-direction: row; 
 }
 
-.title p{
+.propertyinfo{
+    display: flex;
+    flex-direction: column; 
+}
+
+.propertyinfo p{
     height: 20px;
 }
-
 .description{
-    font-size: 30px;
+    font-size: 20px;
     border-bottom: 2px solid #dddddd63;
     height: 50px;
 }

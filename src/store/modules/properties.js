@@ -4,7 +4,8 @@ import { request } from "../../utils";
 const properties = createSlice({
     name:"properties",
     initialState:{
-        propertyInfo:[]
+        propertyInfo:[],
+        selectProperty:[]
     },
     reducers:
     {
@@ -20,11 +21,14 @@ const properties = createSlice({
             if (index !== -1){
                 state.propertyInfo[index] = {...state.propertyInfo[index],...data}
             }
+        },
+        setSelectProperty(state,action){
+            state.selectProperty = action.payload
         }
     }
 })
 
-const {setPropertyInfo,addPropertyInfo,updatePropertyInfo} = properties.actions
+const {setPropertyInfo,addPropertyInfo,updatePropertyInfo,setSelectProperty} = properties.actions
 
 const getPropertyList = () => async(dispatch)=>{
         const res = await request.get('/properties/getAll')
@@ -72,9 +76,10 @@ const modifyProperty = (id,data) =>async(dispatch)=>{
     }
 }
 
-const getPropertyById = (id) =>async()=>{
+const getPropertyById = (id) =>async(dispatch)=>{
     try{
         const res = await request.get(`properties/${id}`)
+        dispatch(setSelectProperty(res.data))
         return res.data
     }catch(error){
         console.log(error)

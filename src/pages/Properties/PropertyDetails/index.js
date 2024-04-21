@@ -1,25 +1,21 @@
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import "./index.scss"
 import { getPropertyById } from "../../../store/modules/properties"
+import { getCostListById } from "../../../store/modules/cost"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Space,Popconfirm,Table, Button ,Modal} from 'antd';
 const PropertyDetails = () =>{
     const {id} = useParams()
     const dispatch = useDispatch()
-    const [property,setProperty] = useState('')
+    const property = useSelector(state=>state.property.selectProperty)
+    const costList = useSelector(state=>state.cost.costList)
+    console.log(costList)
     useEffect(()=>{
-        const fetchProperty = async()=>{
-            try{
-                const response = await dispatch(getPropertyById(id))
-                console.log(response)
-                setProperty(response)
-            }catch(error){
-                setProperty(null)
-            }
-        }
-        fetchProperty()
-    },[id,dispatch])
+      dispatch(getPropertyById(id))
+      dispatch(getCostListById(id))
+},[id,dispatch])
+
     const propertyAddress = property.address || '' //create a temp varible in case address not exist 
     const address = propertyAddress.substring(0,propertyAddress.indexOf(',')) 
     const desciption = propertyAddress.substring(propertyAddress.indexOf(',') + 1).trim()
@@ -77,9 +73,9 @@ const PropertyDetails = () =>{
 
       const costForm = [
         {
-          title: 'Name',
-          dataIndex: 'name',
-          key:'name'
+          title: 'Description',
+          dataIndex: 'description',
+          key:'description'
         },
         {
           title:'Date',
@@ -87,9 +83,9 @@ const PropertyDetails = () =>{
           key:'date'
         },
         {
-            title:'Amount',
-            dataIndex:'amount',
-            key:'amount'
+            title:'Cost',
+            dataIndex:'cost',
+            key:'cost'
         },{
           title:'Action',
           key:'action',
@@ -101,7 +97,7 @@ const PropertyDetails = () =>{
       ]
     return(
         <div className="propertyDetails">
-            <div className="title">
+            <div className="propertyinfo">
             <p>{address}</p>
             <div className="description">
             {desciption}
@@ -110,20 +106,29 @@ const PropertyDetails = () =>{
             <div className="TenantsList">
                 <div className="title">
                 Tenants
+                <div className="add-button">
+                    <Button type="primary" size='large'>Add tenant</Button>
+                    </div>
                 </div>
                 <Table columns={tenantsForm} rowKey="id"/>
             </div>
             <div className="ContractList">
                 <div className="title">
                     Contract
+                    <div className="add-button">
+                    <Button type="primary" size='large'>Upload Contract</Button>
+                    </div>
                 </div>
                 <Table columns={contractForm} rowKey="id"/>
             </div>
             <div className="CostList">
                 <div className="title">
                     Cost
+                    <div className="add-button">
+                    <Button type="primary" size='large'>Add Cost</Button>
+                    </div>
                 </div>
-                <Table columns={costForm} rowKey="id"/>
+                <Table columns={costForm} dataSource={costList} rowKey="id"/>
             </div>
         </div>
     )
