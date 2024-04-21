@@ -1,30 +1,30 @@
 import React from 'react';
-import { Form, Input, Select } from 'antd';
+import { Form, Input, Select ,DatePicker} from 'antd';
 const {Option} = Select
 
 const CostForm = ({form}) =>{
     return(
         <Form form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} layout='vertical'>
+            
+            <Form.Item label="Description" name="description" rules={[{required:true}]}>
+            <Input/>
+            </Form.Item>
+            <Form.Item label="Date" name="date" rules={[{required:true}]}>
+            <DatePicker />
+            </Form.Item>
+
             <Form.Item
-            label="Rent (Monthly)"
-            name="price"
+            label="Cost"
+            name="cost"
             rules={[
                 {
-                    pattern:new RegExp(/^\d+$/),
-                    message:'Plese input numbers only'
+                    pattern:new RegExp(/^\d+(\.\d*)?$/),
+                    message:'Plese input numbers only',
+                    required:true
                 }
             ]}
             >
-            <Input prefix='$'/>
-            </Form.Item>
-            <Form.Item
-            label="Rental Status"
-            name="state"
-            rules={[{required:true}]}>
-            <Select placeholder="Please select the rental status">
-                <Option value="empty">Empty</Option>
-                <Option value="occupied">Occupied</Option>
-            </Select>
+            <Input prefix='$' style={{width:'100px'}}/>
             </Form.Item>
             </Form>
     )

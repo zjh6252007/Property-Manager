@@ -5,17 +5,33 @@ import { getCostListById } from "../../../store/modules/cost"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Space,Popconfirm,Table, Button ,Modal} from 'antd';
+import { useForm } from "antd/es/form/Form"
+import CostForm from "../../../components/propertyComponents/propertyDetails/costForm"
+import { addCost } from "../../../store/modules/cost"
+import { deleteCost } from "../../../store/modules/cost"
 const PropertyDetails = () =>{
     const {id} = useParams()
     const dispatch = useDispatch()
     const property = useSelector(state=>state.property.selectProperty)
     const costList = useSelector(state=>state.cost.costList)
-    console.log(costList)
+    const [isVisible,SetIsVisible] = useState(false)
+    const [addCostForm] = useForm()
+
+    const formatDate = (date) =>{
+      return new Date(date).toLocaleDateString('en-CA')
+    }
+    const formattedCostList = costList.map(cost=>({
+      ...cost,date:formatDate(cost.date)
+    }))
     useEffect(()=>{
       dispatch(getPropertyById(id))
       dispatch(getCostListById(id))
 },[id,dispatch])
 
+
+    const deleteCostForm = (costId) =>{
+      dispatch(deleteCost(costId,id))
+    }
     const propertyAddress = property.address || '' //create a temp varible in case address not exist 
     const address = propertyAddress.substring(0,propertyAddress.indexOf(',')) 
     const desciption = propertyAddress.substring(propertyAddress.indexOf(',') + 1).trim()
@@ -80,21 +96,52 @@ const PropertyDetails = () =>{
         {
           title:'Date',
           dataIndex:'date',
-          key:'date'
+          key:'date',
+          sorter:(a,b) =>new Date(a.date) - new Date(b.date),
+          sortDirections:['descend','ascend']
         },
         {
             title:'Cost',
             dataIndex:'cost',
-            key:'cost'
+            key:'cost',
+            render:(text)=>`$${text.toFixed(2)}`,
+            sorter:(a,b) => a.cost-b.cost,
+            sortDirections:['descend','ascend']
         },{
           title:'Action',
           key:'action',
           render:(_,record) =>(
-              <Space size="middle">
-              </Space>
+            <Space size="middle">
+            <Popconfirm
+                description="Confirm to delete"
+                onConfirm={()=>deleteCostForm(record.id)}>
+            <Button>Delete</Button>
+            </Popconfirm>
+            </Space>
           )
         }
       ]
+
+      const showModal = () =>{
+        SetIsVisible(true)
+      }
+
+      const handelCancel= (form) =>{
+        form.resetFields()
+        SetIsVisible(false)
+      }
+
+      const submitCostForm = async() =>{
+        try{
+        const values = await addCostForm.validateFields()
+        values.propertyId = id
+        const res = dispatch(addCost(values))
+        addCostForm.resetFields()
+        SetIsVisible(false)}
+        catch(error){
+          console.log(error)
+        }
+      }
     return(
         <div className="propertyDetails">
             <div className="propertyinfo">
@@ -125,11 +172,14 @@ const PropertyDetails = () =>{
                 <div className="title">
                     Cost
                     <div className="add-button">
-                    <Button type="primary" size='large'>Add Cost</Button>
+                    <Button type="primary" size='large' onClick={showModal}>Add Cost</Button>
                     </div>
                 </div>
-                <Table columns={costForm} dataSource={costList} rowKey="id"/>
+                <Table columns={costForm} dataSource={formattedCostList} rowKey="id"/>
             </div>
+          <Modal title="Add Cost" open={isVisible} onOk={submitCostForm} onCancel={()=>handelCancel(addCostForm)}>
+          <CostForm form={addCostForm}/>
+        </Modal>
         </div>
     )
 }
