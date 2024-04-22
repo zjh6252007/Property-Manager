@@ -16,7 +16,6 @@ const Repair = () =>{
     },[dispatch])
 
     const repairList = useSelector(state => state.repair.repairList);
-    console.log(repairList)
     const handleFetchDetails = async () => {
         const details = await Promise.all(repairList.map(async (repair) => {
             const propertyRes = await dispatch(getPropertyById(repair.propertyId))

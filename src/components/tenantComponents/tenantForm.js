@@ -1,7 +1,7 @@
 import React from 'react';
-import { Form, Input} from 'antd';
-
-const TenantForm = ({form}) =>{
+import { Form, Input,Select} from 'antd';
+const TenantForm = ({form,propertyInfo}) =>{
+  const {Option} = Select
 return(
 <Form
 form = {form}
@@ -48,10 +48,14 @@ initialValues={{ remember: true }}
   <Input />
 </Form.Item>
 <Form.Item
-  label="Address"
-  name="address"
->
-  <Input />
+label="Address"
+name="address">
+<Select placeholder="Select">
+  <Option value=""></Option>
+  {propertyInfo.map(property=>(
+    <Option key={property.id} value={property.address}>{property.address}</Option>
+  ))}    
+  </Select>
 </Form.Item>
 </Form>
 )

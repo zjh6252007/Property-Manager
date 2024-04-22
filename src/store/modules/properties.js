@@ -5,15 +5,18 @@ const properties = createSlice({
     name:"properties",
     initialState:{
         propertyInfo:[],
-        selectProperty:[]
+        selectProperty:[],
+        isLoaded:false
     },
     reducers:
     {
         setPropertyInfo(state,action){
             state.propertyInfo = action.payload
+            state.isLoaded = true
         },
         addPropertyInfo(state,action){
           state.propertyInfo = [...state.propertyInfo,action.payload]
+          state.isLoaded = false
         },
         updatePropertyInfo(state,action){
             const {id,data} = action.payload
@@ -21,6 +24,7 @@ const properties = createSlice({
             if (index !== -1){
                 state.propertyInfo[index] = {...state.propertyInfo[index],...data}
             }
+            state.isLoaded = false
         },
         setSelectProperty(state,action){
             state.selectProperty = action.payload

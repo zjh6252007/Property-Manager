@@ -1,19 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { Space,Popconfirm,Table, Button ,Modal,message} from 'antd';
+import { Space,Popconfirm,Table, Button ,Modal,message, Spin, Input} from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import TenantForm from '../../components/tenantComponents/tenantForm';
 import { getTenantData,postTenantData,deleteTenantData,modifyTenantData } from '../../store/modules/tenant';
 import './index.scss'
 import { useForm } from 'antd/es/form/Form';
 import { sendInviteLink } from '../../store/modules/user';
+import { getPropertyList } from '../../store/modules/properties';
 const Tenants = () =>{
 
 const [isVisible,SetIsVisible] = useState(false)
 const [isEditing,SetIsEditing] = useState(false)
 const [editingTenant,setEditingTenant] = useState(null)
+const [searchText,setSearchText] = useState('')
 const dispatch = useDispatch()
 const [form] = useForm()
+const [isPageLoading,setIsPageLoading] = useState(false)
 
+const isLoaded = useSelector(state=>state.property.isLoaded)
+    useEffect(()=>{
+      const fetchData=async()=>{
+        setIsPageLoading(true)
+        await dispatch(getTenantData())
+        if(!isLoaded){
+          await dispatch(getPropertyList())
+        }
+        setIsPageLoading(false)
+      }
+      fetchData()
+    },[dispatch,isLoaded])
+    
 const handleDelete = (id) =>{ //Delete the user by id
     dispatch(deleteTenantData(id))
 }
@@ -115,14 +131,18 @@ const handelCancel=()=>{
     SetIsVisible(false)
 }
 
-    useEffect(()=>{
-        dispatch(getTenantData())
-    },[dispatch])
-
+const handelSearch = (e) =>{
+  setSearchText(e.target.value)
+}
 const tenantData = useSelector(state => state.tenant.tenantInfo)
-
+const propertyInfo = useSelector(state=>state.property.propertyInfo)
+const filteredData = tenantData.filter(tenant =>
+    tenant.firstName?.toLowerCase().includes(searchText.toLowerCase())||
+    tenant.lastName?.toLowerCase().includes(searchText.toLowerCase())||
+    tenant.phone?.includes(searchText))
 return(
     <div className='tenant'>
+      <Spin spinning={isPageLoading}>
         <div className='tenant-form'>
           <div className='title'>
             Tenants
@@ -130,11 +150,13 @@ return(
             <Button type="primary" onClick={showModal} size='large'>Add tenant</Button>
             </div>
           </div>
-            <Table columns={columns} dataSource={tenantData} rowKey="id"/>  
+          <Input placeholder="Search by Name or Phone" onChange={handelSearch} style={{height:40, width: 200,marginBottom:10}} />
+            <Table columns={columns} dataSource={filteredData} rowKey="id"/>  
         </div>
         <Modal title="Add tenant" open={isVisible} onOk={handelOk} onCancel={handelCancel}>
-          <TenantForm form={form}/>
+          <TenantForm form={form} propertyInfo={propertyInfo}/>
         </Modal>
+        </Spin>
     </div>
 
     )

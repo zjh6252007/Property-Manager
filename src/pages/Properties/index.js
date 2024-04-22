@@ -17,10 +17,14 @@ const Properties =() =>{
     const [isSecondFormVisible,SetIsSecondFormVisible] = useState(false)
     const dispatch = useDispatch()
 
+    const isLoaded = useSelector(state=>state.property.isLoaded)
     useEffect(()=>{
+        if(!isLoaded)
         dispatch(getPropertyList())
-        },[dispatch])
+        },[dispatch,isLoaded])
     
+    
+
     const propertyInfo = useSelector(state=>state.property.propertyInfo || [])
     
     const handelCancel = () =>{
