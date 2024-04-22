@@ -33,6 +33,7 @@ const getTenantData = () => async(dispatch) => {
 
 const postTenantData =(data) => async(dispatch) =>{
     try{
+        console.log("running")
         const res = await request.post('/tenant/add',data,{
             headers:{
                 'Content-Type':'application/json'
@@ -43,7 +44,7 @@ const postTenantData =(data) => async(dispatch) =>{
     }catch(error)
     {
         console.log(error);
-        return false
+        return error
     }
 }
 
@@ -81,7 +82,18 @@ const getTenantById = (id) => async()=>{
     }
 }
 
-export {getTenantData,postTenantData,deleteTenantData,modifyTenantData,getTenantById}
+const postTenantRegisterData =(token,data) => async() =>{
+    try{
+        const res = await request.post(`/tenant/register?invitation_token=${token}`,data)
+        return res
+    }catch(error)
+    {
+        console.log(error);
+        return false
+    }
+}
+
+export {getTenantData,postTenantData,deleteTenantData,modifyTenantData,getTenantById,postTenantRegisterData}
 
 const tenantReducer = tenant.reducer
 

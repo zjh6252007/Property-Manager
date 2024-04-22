@@ -1,14 +1,19 @@
 import { useState } from "react";
-import { postRegisterData } from "../../store/modules/user";
+import { postTenantRegisterData } from "../../store/modules/tenant";
 import {message} from 'antd';
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation} from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-const Register =() =>{
+const TenantRegister =() =>{
     const [username,SetUsername] = useState('')
     const [password,SetPassword] = useState('')
     const [confirmPassword,SetConfirmPassword] = useState('')
     const [email,SetEmail] = useState('')
     const [error,SetError] = useState('')
+    const location = useLocation()
+    const params = new URLSearchParams(location.search)
+    const dispatch = useDispatch()
+    const token = params.get('invitation_token')
     const nav = useNavigate()
     const validateUsername = (username) =>{
         const rules = /[^a-zA-Z0-9]/
@@ -19,12 +24,6 @@ const Register =() =>{
         const rules = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
         return rules.test(password)
     }
-
-    const validateEmail = (email) =>{
-        const rules = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-        return rules.test(email)
-    }
-
     
     const handleUsername = (e) =>{
         const input = e.target.value
@@ -45,15 +44,7 @@ const Register =() =>{
             SetError('')
         }
     }
-    const handleEmail = (e) =>{
-        const input = e.target.value
-        SetEmail(input)
-        if(!validateEmail(input)){
-            SetError('Invalid Email')
-        }else{
-            SetError('')
-        }
-    }
+
     const handelSubmit = async(e) =>{
         e.preventDefault()
     
@@ -65,9 +56,9 @@ const Register =() =>{
 
         if(error === ""){
             try{
-            const registerResponse = await postRegisterData({username,password,email})
+            const registerResponse = await dispatch(postTenantRegisterData(token,{username,password}))
             nav('/login')
-            message.success("Register Success.Please check your email for the verification link.")
+            message.success("Register Success")
             if(registerResponse.code === 1)
             {
                 message.error(registerResponse.message)
@@ -83,7 +74,7 @@ const Register =() =>{
         <div className="register">
             <div className="box">
                 <form className="form" name="register" onSubmit={handelSubmit}>
-                    <h2>Register</h2>
+                    <h2>Tenant Register</h2>
                     <div className="inputBox">
                     <input type="text" value={username} required={true} onChange={handleUsername}></input>
                     <span>Username</span>
@@ -102,12 +93,6 @@ const Register =() =>{
                         <i></i>
                     </div>
 
-                    <div className="inputBox">
-                        <input type="text" value={email} required={true} onChange={handleEmail}></input>
-                        <span>Email</span>
-                        <i></i>
-                    </div>
-
                     {error && <div className="error">{error}</div>}
                     <input type="submit" value="Register"></input>
                 </form>
@@ -116,4 +101,4 @@ const Register =() =>{
     )
 }
 
-export default Register;
+export default TenantRegister;

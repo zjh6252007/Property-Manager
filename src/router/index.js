@@ -12,6 +12,7 @@ import Repair from '../pages/Repair/index.js'
 import Tenants from '../pages/Tenants/index.js'
 import PropertyDetails from '../pages/Properties/PropertyDetails/index.js'
 import Verify from '../pages/Verfiy/index.js'
+import TenantRegister from '../pages/Register/tenantRegister.js'
 const router = createBrowserRouter([
     {
         path:'/',
@@ -54,6 +55,9 @@ const router = createBrowserRouter([
     },{
         path:'/user/verify-email',
         element:<Verify/>
+    },{
+        path:'/tenant/register',
+        element:<TenantRegister/>
     }
 ])
 
