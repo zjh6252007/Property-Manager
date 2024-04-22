@@ -102,7 +102,13 @@ const resendVerifyEmail = () =>async(dispatch) =>{
     }
     return res
 }
-export {setToken,setUserInfo,getUserData,postLoginData,postRegisterData,clearUserInfo,changePwd,verfiyEmail,resendVerifyEmail}
+
+const sendInviteLink =(id) =>async()=>{
+    const res = await request.post(`/user/send-invitation/${id}`)
+    return res
+}
+
+export {setToken,setUserInfo,getUserData,postLoginData,postRegisterData,clearUserInfo,changePwd,verfiyEmail,resendVerifyEmail,sendInviteLink}
 
 const userReducer = user.reducer
 

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Space,Popconfirm,Table, Button ,Modal} from 'antd';
+import { Space,Popconfirm,Table, Button ,Modal,message} from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import TenantForm from '../../components/tenantComponents/tenantForm';
 import { getTenantData,postTenantData,deleteTenantData,modifyTenantData } from '../../store/modules/tenant';
 import './index.scss'
 import { useForm } from 'antd/es/form/Form';
+import { sendInviteLink } from '../../store/modules/user';
 const Tenants = () =>{
 
 const [isVisible,SetIsVisible] = useState(false)
@@ -21,6 +22,16 @@ const handleModify = (tenant) =>{ //modify user
   SetIsEditing(true)
   setEditingTenant(tenant)
   showModal(tenant)
+}
+
+const sendLink = (id) =>{
+  dispatch(sendInviteLink(id)).then((res)=>{
+    if(res.code === 0){
+      message.success('Link sent successfully.')
+    }else{
+      message.error(res.message)
+    }
+  })
 }
 
 const showModal = (tenant = null) =>{ //show the form when user click the modify or add tenant button
@@ -67,10 +78,15 @@ const columns = [
         <Button>Delete</Button>
         </Popconfirm>
         <Button onClick={()=>handleModify(record)}>Modify</Button>
+        <Popconfirm
+            description="Confirm to send a register link. You can't delete the tenant after register."
+            onConfirm={()=>sendLink(record.id)}>
+        <Button>Invite to Register</Button>
+        </Popconfirm>
         </Space>
     )
   }
-];
+]
 
 const handelOk = async() =>{
     try{
