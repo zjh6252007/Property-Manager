@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Input,Select} from 'antd';
-const TenantForm = ({form,propertyInfo}) =>{
+const TenantForm = ({form,propertyInfo,isActive}) =>{
   const {Option} = Select
 return(
 <Form
@@ -33,7 +33,7 @@ initialValues={{ remember: true }}
     }
   ]}
 >
-  <Input />
+  <Input disabled={isActive}/>
 </Form.Item>
 <Form.Item
   label="Phone"

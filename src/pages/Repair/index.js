@@ -1,17 +1,21 @@
 import { useEffect,useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getRepairList } from "../../store/modules/repair"
-import { Space,Popconfirm,Table, Button ,Modal} from 'antd';
+import { Space,Popconfirm,Table, Button ,Modal,Spin} from 'antd';
 import { getPropertyById } from "../../store/modules/properties";
 import { getTenantById } from "../../store/modules/tenant";
 import './index.scss'
 const Repair = () =>{
     const dispatch = useDispatch()
     const [repairData,SetRepairData] = useState([])
+    const [isPageLoading,setIsPageLoading] = useState(false)
 
     useEffect(()=>{
+        setIsPageLoading(true)
         dispatch(getRepairList()).then(()=>{
-            handleFetchDetails()
+            handleFetchDetails().finally(()=>{
+                setIsPageLoading(false)
+            })
         })
     },[dispatch])
 
@@ -81,12 +85,14 @@ const Repair = () =>{
 
     return(
         <div className="repair">
+            <Spin spinning={isPageLoading}>
             <div className="repair-form">
                 <div className="title">
                 Repair
                 </div>
                 <Table columns={columns}  dataSource={repairData} rowKey="id"/>
             </div>
+            </Spin>
         </div>
     )
 }

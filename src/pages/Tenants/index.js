@@ -13,6 +13,7 @@ const [isVisible,SetIsVisible] = useState(false)
 const [isEditing,SetIsEditing] = useState(false)
 const [editingTenant,setEditingTenant] = useState(null)
 const [searchText,setSearchText] = useState('')
+const [isActive,setIsActive] = useState(false)
 const dispatch = useDispatch()
 const [form] = useForm()
 const [isPageLoading,setIsPageLoading] = useState(false)
@@ -30,6 +31,10 @@ const isLoaded = useSelector(state=>state.property.isLoaded)
       fetchData()
     },[dispatch,isLoaded])
     
+    const tenantData = useSelector(state => state.tenant.tenantInfo)
+    const propertyInfo = useSelector(state=>state.property.propertyInfo)
+
+    console.log(tenantData)
 const handleDelete = (id) =>{ //Delete the user by id
     dispatch(deleteTenantData(id))
 }
@@ -54,8 +59,10 @@ const showModal = (tenant = null) =>{ //show the form when user click the modify
   SetIsVisible(true)
   if(tenant){ //if modify then auto fill the info from form
     form.setFieldsValue(tenant)
+    setIsActive(tenant.active)
   }else{// if add tenant then show the empty form
     form.resetFields()
+    setIsActive(false)
   }
 }
 const columns = [
@@ -83,7 +90,8 @@ const columns = [
     title:'Telephone',
     dataIndex:'phone',
     key:'phone'
-  },{
+  }
+  ,{
     title:'Action',
     key:'action',
     render:(_,record) =>(
@@ -91,7 +99,7 @@ const columns = [
         <Popconfirm
             description="Confirm to delete"
             onConfirm={()=>handleDelete(record.id)}>
-        <Button>Delete</Button>
+        <Button disabled={record.active}>Delete</Button>
         </Popconfirm>
         <Button onClick={()=>handleModify(record)}>Modify</Button>
         <Popconfirm
@@ -134,8 +142,6 @@ const handelCancel=()=>{
 const handelSearch = (e) =>{
   setSearchText(e.target.value)
 }
-const tenantData = useSelector(state => state.tenant.tenantInfo)
-const propertyInfo = useSelector(state=>state.property.propertyInfo)
 const filteredData = tenantData.filter(tenant =>
     tenant.firstName?.toLowerCase().includes(searchText.toLowerCase())||
     tenant.lastName?.toLowerCase().includes(searchText.toLowerCase())||
@@ -154,7 +160,7 @@ return(
             <Table columns={columns} dataSource={filteredData} rowKey="id"/>  
         </div>
         <Modal title="Add tenant" open={isVisible} onOk={handelOk} onCancel={handelCancel}>
-          <TenantForm form={form} propertyInfo={propertyInfo}/>
+          <TenantForm form={form} propertyInfo={propertyInfo} isActive={isActive}/>
         </Modal>
         </Spin>
     </div>
