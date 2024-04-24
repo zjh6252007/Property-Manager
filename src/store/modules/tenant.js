@@ -93,7 +93,16 @@ const postTenantRegisterData =(token,data) => async() =>{
     }
 }
 
-export {getTenantData,postTenantData,deleteTenantData,modifyTenantData,getTenantById,postTenantRegisterData}
+const getTenantsByPropertyId=(id)=>async(dispatch)=>{
+    try{
+        const res = await request.get(`/tenant/getTenant/${id}`)
+        dispatch(setTenantInfo(res.data))
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
+export {getTenantData,postTenantData,deleteTenantData,modifyTenantData,getTenantById,postTenantRegisterData,getTenantsByPropertyId}
 
 const tenantReducer = tenant.reducer
 

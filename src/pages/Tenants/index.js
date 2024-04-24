@@ -33,8 +33,6 @@ const isLoaded = useSelector(state=>state.property.isLoaded)
     
     const tenantData = useSelector(state => state.tenant.tenantInfo)
     const propertyInfo = useSelector(state=>state.property.propertyInfo)
-
-    console.log(tenantData)
 const handleDelete = (id) =>{ //Delete the user by id
     dispatch(deleteTenantData(id))
 }
@@ -105,7 +103,7 @@ const columns = [
         <Popconfirm
             description="Confirm to send a register link. You can't delete the tenant after register."
             onConfirm={()=>sendLink(record.id)}>
-        <Button>Invite to Register</Button>
+        <Button hidden={record.active}>Invite to Register</Button>
         </Popconfirm>
         </Space>
     )

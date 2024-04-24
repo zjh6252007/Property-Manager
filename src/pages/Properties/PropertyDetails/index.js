@@ -9,6 +9,7 @@ import { useForm } from "antd/es/form/Form"
 import CostForm from "../../../components/propertyComponents/propertyDetails/costForm"
 import { addCost } from "../../../store/modules/cost"
 import { deleteCost } from "../../../store/modules/cost"
+import { getTenantsByPropertyId } from "../../../store/modules/tenant"
 const PropertyDetails = () =>{
     const {id} = useParams()
     const dispatch = useDispatch()
@@ -26,9 +27,14 @@ const PropertyDetails = () =>{
     useEffect(()=>{
       dispatch(getPropertyById(id))
       dispatch(getCostListById(id))
+      dispatch(getTenantsByPropertyId(id))
 },[id,dispatch])
 
-
+  const tenantData = useSelector(state => state.tenant.tenantInfo)
+  const formattedData = tenantData.map(tenant=>({
+    ...tenant,
+    name:`${tenant.firstName} ${tenant.lastName}`
+  }))
     const deleteCostForm = (costId) =>{
       dispatch(deleteCost(costId,id))
     }
@@ -51,13 +57,6 @@ const PropertyDetails = () =>{
           title:'Telephone',
           dataIndex:'phone',
           key:'phone'
-        },{
-          title:'Action',
-          key:'action',
-          render:(_,record) =>(
-              <Space size="middle">
-              </Space>
-          )
         }
       ]
 
@@ -157,7 +156,7 @@ const PropertyDetails = () =>{
                     <Button type="primary" size='large'>Add tenant</Button>
                     </div>
                 </div>
-                <Table columns={tenantsForm} rowKey="id"/>
+                <Table columns={tenantsForm} dataSource={formattedData} rowKey="id"/>
             </div>
             <div className="ContractList">
                 <div className="title">
