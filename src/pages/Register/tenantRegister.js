@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { postTenantRegisterData } from "../../store/modules/tenant";
+import { postTenantRegisterData } from "../../store/modules/user";
 import {message} from 'antd';
 import { useNavigate,useLocation} from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -8,7 +8,6 @@ const TenantRegister =() =>{
     const [username,SetUsername] = useState('')
     const [password,SetPassword] = useState('')
     const [confirmPassword,SetConfirmPassword] = useState('')
-    const [email,SetEmail] = useState('')
     const [error,SetError] = useState('')
     const location = useLocation()
     const params = new URLSearchParams(location.search)

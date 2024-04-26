@@ -56,7 +56,7 @@ const router = createBrowserRouter([
         path:'/user/verify-email',
         element:<Verify/>
     },{
-        path:'/tenant/register',
+        path:'/register/tenant',
         element:<TenantRegister/>
     }
 ])

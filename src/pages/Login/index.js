@@ -11,7 +11,7 @@ const Login=()=>{
     const[password,SetPassword] = useState('')
     const dispatch = useDispatch()
     const navigate = useNavigate()
-
+    const [role,setRole] = useState('owner');
 
     const handelSubmit = async(e) =>{
         e.preventDefault()
@@ -21,7 +21,7 @@ const Login=()=>{
             error = true
         }
         if(!error){
-            const loginSuccess = await dispatch(postLoginData({username,password}))
+            const loginSuccess = await dispatch(postLoginData({username,password,role}))
             if(loginSuccess)
             {
             navigate('/')

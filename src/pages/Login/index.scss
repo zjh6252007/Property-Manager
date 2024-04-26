@@ -65,6 +65,10 @@
     pointer-events: none;
     z-index: 9;
 }
+.inputBox select{
+    border-radius: 4px;
+    
+}
 .inputBox input:valid ~ i,
 .inputBox input:focus ~ i{
     height: 44px;

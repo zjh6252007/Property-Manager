@@ -108,7 +108,18 @@ const sendInviteLink =(id) =>async()=>{
     return res
 }
 
-export {setToken,setUserInfo,getUserData,postLoginData,postRegisterData,clearUserInfo,changePwd,verfiyEmail,resendVerifyEmail,sendInviteLink}
+const postTenantRegisterData =(token,data) => async() =>{
+    try{
+        const res = await request.post(`/user/register_tenant?invitation_token=${token}`,data)
+        return res
+    }catch(error)
+    {
+        console.log(error);
+        return false
+    }
+}
+
+export {setToken,setUserInfo,getUserData,postLoginData,postRegisterData,clearUserInfo,changePwd,verfiyEmail,resendVerifyEmail,sendInviteLink,postTenantRegisterData}
 
 const userReducer = user.reducer
 
