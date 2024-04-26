@@ -9,11 +9,14 @@ const repair = createSlice({
     reducers:{
         setRepairList(state,action){
             state.repairList = action.payload
+        },
+        addRepairList(state,action){
+            state.repairList.push(action.payload)
         }
     }
 })
 
-const {setRepairList} = repair.actions
+const {setRepairList,addRepairList} = repair.actions
 
 const getRepairList = () =>async(dispatch) =>{
     try{
@@ -24,6 +27,15 @@ const getRepairList = () =>async(dispatch) =>{
     }
 }
 
-export {getRepairList}
+const postRepairRequest=(data) =>async(dispatch)=>{
+    try{
+        const res = await request.post('/repair-requests/create',data)
+        dispatch(addRepairList())
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
+export {getRepairList,postRepairRequest}
 const repairReducer = repair.reducer
 export default repairReducer

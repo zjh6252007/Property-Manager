@@ -1,60 +1,46 @@
 import { useEffect,useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { getRepairList } from "../../store/modules/repair"
+import { getRepairList } from "../../../store/modules/repair"
 import { Space,Popconfirm,Table, Button ,Modal,Spin} from 'antd';
-import { getPropertyById } from "../../store/modules/properties";
-import { getTenantById } from "../../store/modules/tenant";
 import './index.scss'
 const Repair = () =>{
     const dispatch = useDispatch()
-    const [repairData,SetRepairData] = useState([])
     const [isPageLoading,setIsPageLoading] = useState(false)
 
     useEffect(()=>{
         setIsPageLoading(true)
-        dispatch(getRepairList()).then(()=>{
-            handleFetchDetails().finally(()=>{
-                setIsPageLoading(false)
-            })
-        })
-    },[dispatch])
+        dispatch(getRepairList(),
+        setIsPageLoading(false))
+        },[dispatch])
 
     const repairList = useSelector(state => state.repair.repairList);
-    const handleFetchDetails = async () => {
-        const details = await Promise.all(repairList.map(async (repair) => {
-            const propertyRes = await dispatch(getPropertyById(repair.propertyId))
-            const tenantRes = await dispatch(getTenantById(repair.tenantId))
-            
-            return {
-                ...repair,
-                address: propertyRes.address,  
-                tenant: tenantRes.firstName+" "+ tenantRes.lastName,
-                phone: tenantRes.phone
-            }
-        }))
-        SetRepairData(details)
-    }
+    console.log(repairList)
 
     const columns = [
         {
           title: 'Property Address',
-          dataIndex: 'address',
+          dataIndex: 'propertyAddress',
           key:'address'
         },
         {
           title: 'Tenant',
-          dataIndex: 'tenant',
+          dataIndex: 'tenantName',
           key:'tenant'
         },
         {
           title: 'Telephone',
-          dataIndex: 'phone',
+          dataIndex: 'tenantPhone',
           key:'phone'
         },
         {
           title:'Description',
           dataIndex:'description',
           key:'desciption'
+        },
+        {
+            title:'Available Date',
+            dataIndex:'available',
+            key:'available'
         },
         {
             title:'Status',
@@ -90,7 +76,7 @@ const Repair = () =>{
                 <div className="title">
                 Repair
                 </div>
-                <Table columns={columns}  dataSource={repairData} rowKey="id"/>
+                <Table columns={columns}  dataSource={repairList} rowKey="id"/>
             </div>
             </Spin>
         </div>

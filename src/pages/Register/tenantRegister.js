@@ -57,7 +57,6 @@ const TenantRegister =() =>{
             try{
             const registerResponse = await dispatch(postTenantRegisterData(token,{username,password}))
             nav('/login')
-            message.success("Register Success")
             if(registerResponse.code === 1)
             {
                 message.error(registerResponse.message)
@@ -67,6 +66,7 @@ const TenantRegister =() =>{
             }}catch(error){
                 console.error('Registration error:',error)
             }
+            message.success("Register Success")
         }
     }
     return(

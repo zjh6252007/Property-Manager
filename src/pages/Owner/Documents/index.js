@@ -1,6 +1,6 @@
 import './index.scss'
 import { Button, message, Upload, Space, Table, Popconfirm,Spin} from 'antd';
-import { getContractList, downloadContract, uploadContract, deleteContract} from '../../store/modules/contract';
+import { getContractList, downloadContract, uploadContract, deleteContract} from '../../../store/modules/contract';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 

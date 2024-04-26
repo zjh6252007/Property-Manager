@@ -7,7 +7,8 @@ const user = createSlice({
     initialState:{
         token:getToken()||'',
         userInfo:{},
-        emailVerificationMessage:''
+        emailVerificationMessage:'',
+        isInitialized:false
     },
     reducers:{
         setToken(state,action){
@@ -20,14 +21,18 @@ const user = createSlice({
         clearUserInfo(state){
             state.token=''
             deleteToken()
+            state.isInitialized = false
         },
         setEmailVerificationMessage(state,action){
             state.emailVerificationMessage = action.payload
+        },
+        setInitialized(state,action){
+            state.isInitialized = action.payload
         }
     }
 })
 
-const {setToken,setUserInfo,clearUserInfo,setEmailVerificationMessage} = user.actions
+const {setToken,setUserInfo,clearUserInfo,setEmailVerificationMessage,setInitialized} = user.actions
 
 const getUserData = () => async(dispatch,getState)=>{
         const token = getState().user.token
@@ -38,6 +43,7 @@ const getUserData = () => async(dispatch,getState)=>{
                 }
             })
             dispatch(setUserInfo(res.data))
+            dispatch(setInitialized(true))
         }catch(error){
             console.log(error)
             if (error.response && (error.response.status === 401 || error.response.status === 403)) {
@@ -52,6 +58,7 @@ const postLoginData = (data) => async(dispatch)=>{
             if(res.data)
             {
             dispatch(setToken(res.data))
+            dispatch(setInitialized(true))
             return true
         }
             else{

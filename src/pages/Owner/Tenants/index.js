@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Space,Popconfirm,Table, Button ,Modal,message, Spin, Input} from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import TenantForm from '../../components/tenantComponents/tenantForm';
-import { getTenantData,postTenantData,deleteTenantData,modifyTenantData } from '../../store/modules/tenant';
+import TenantForm from '../../../components/tenantComponents/tenantForm';
+import { getTenantData,postTenantData,deleteTenantData,modifyTenantData } from '../../../store/modules/tenant';
 import './index.scss'
 import { useForm } from 'antd/es/form/Form';
-import { sendInviteLink } from '../../store/modules/user';
-import { getPropertyList } from '../../store/modules/properties';
+import { sendInviteLink } from '../../../store/modules/user';
+import { getPropertyList } from '../../../store/modules/properties';
 const Tenants = () =>{
 
 const [isVisible,SetIsVisible] = useState(false)
