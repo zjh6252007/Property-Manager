@@ -20,39 +20,53 @@ const Repair = () =>{
         {
           title: 'Property Address',
           dataIndex: 'propertyAddress',
-          key:'address'
+          key:'address',
+          width:200
         },
         {
           title: 'Tenant',
           dataIndex: 'tenantName',
-          key:'tenant'
+          key:'tenant',
+          width:10
         },
         {
           title: 'Telephone',
           dataIndex: 'tenantPhone',
-          key:'phone'
+          key:'phone',
+          width:10
         },
         {
           title:'Description',
           dataIndex:'description',
-          key:'desciption'
+          key:'desciption',
+          width:40
+        },{
+            title:'Update Time',
+            dataIndex:'updatedAt',
+            key:'updatedAt',
+            width:140
         },
         {
-            title:'Available Date',
+            title:'Tenant Available',
             dataIndex:'available',
             key:'available',
+            width:240,
             render:available => available?(
                 <div>
                     {available.split(',').map((time,index)=>(
-                        <div key={index}>{time.trim()}</div>
+                        <div key={index}>
+                            {time.trim()}
+                        </div>
                     ))}
                 </div>
             ):null
+            
         },
         {
             title:'Status',
             dataIndex:'status',
             key:'status',
+            width:50,
             render:(status)=>{
                 let color = `black`
                 if(status === 'Open'){
@@ -68,6 +82,7 @@ const Repair = () =>{
         {
           title:'Action',
           key:'action',
+          width:50,
           render:(_,record) =>(
               <Space size="middle">
               <Button>Delete</Button>

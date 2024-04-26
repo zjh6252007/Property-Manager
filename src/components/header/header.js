@@ -1,15 +1,30 @@
 import './header.scss'
-import { Popconfirm,message } from 'antd'
+import { Popconfirm,message,Badge} from 'antd'
 import {UserOutlined,NotificationOutlined} from '@ant-design/icons'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearUserInfo,getUserData} from '../../store/modules/user';
 import { useNavigate } from 'react-router-dom';
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs'
 const Header = ()=>{
+  
+    const[notification,setNotification] = useState(false);
+    useEffect(() => {
+      let socket = new SockJS('http://localhost:8080/ws');
+      let stompClient = Stomp.over(socket)
+      stompClient.connect({}, function(frame) {
+          stompClient.subscribe('/topic/repairs', function(message) {
+              setNotification(true)
+          })
+      })
+      return () => {
+          stompClient.disconnect()
+      }
+  }, [])
     const dispatch = useDispatch()
     const nav = useNavigate()
       const [clicked,SetClicked] = useState(false)
-      
       const logout = () =>{
         dispatch(clearUserInfo())
         nav('/login')
@@ -28,7 +43,9 @@ const Header = ()=>{
     return(
 <div className='header'>
     <div className='notification'>
-    <NotificationOutlined />
+      <Badge dot={notification} offset={[-2,10]}>
+    <NotificationOutlined onClick={()=>setNotification(false)}/>
+    </Badge>
     </div>
 
     <div className='user' onClick={()=>{SetClicked(!clicked)}}>

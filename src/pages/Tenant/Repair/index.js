@@ -18,7 +18,11 @@ const TenantRepair = () =>{
 
     const handelSubmit = async() =>{
         const values = await form.validateFields()
-        const formattedDate = values.available.map(slot => `${slot[0]}: ${slot[1]}`).join(', ')
+        const formattedDate = values.available.map(slot => {
+            // Check if the time part is undefined and replace it with 'All Time'
+            const time = slot[1] ? slot[1] : 'All Time';
+            return `${slot[0]}: ${time}`;
+        }).join(', ');
         
         const payload = {
             description:values.description,
@@ -34,21 +38,7 @@ const TenantRepair = () =>{
         SetIsVisible(false)
     }
     const columns = [
-        {
-          title: 'Property Address',
-          dataIndex: 'address',
-          key:'address'
-        },
-        {
-          title: 'Tenant',
-          dataIndex: 'tenant',
-          key:'tenant'
-        },
-        {
-          title: 'Telephone',
-          dataIndex: 'phone',
-          key:'phone'
-        },
+
         {
           title:'Description',
           dataIndex:'description',

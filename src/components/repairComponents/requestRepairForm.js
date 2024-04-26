@@ -17,6 +17,7 @@ const date = daysOfWeek.map(day=>({
         value:time
     }))
 }))
+
 return(
 <Form
 form = {form}
