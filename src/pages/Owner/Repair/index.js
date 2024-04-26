@@ -40,7 +40,14 @@ const Repair = () =>{
         {
             title:'Available Date',
             dataIndex:'available',
-            key:'available'
+            key:'available',
+            render:available => available?(
+                <div>
+                    {available.split(',').map((time,index)=>(
+                        <div key={index}>{time.trim()}</div>
+                    ))}
+                </div>
+            ):null
         },
         {
             title:'Status',
