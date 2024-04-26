@@ -39,6 +39,7 @@ const postTenantData =(data) => async(dispatch) =>{
             }
         })
         dispatch(addTenantInfo(res.data))
+        console.log(res.data)
         return res
     }catch(error)
     {

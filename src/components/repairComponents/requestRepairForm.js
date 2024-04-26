@@ -35,7 +35,8 @@ initialValues={{ remember: true }}
 
 <Form.Item 
 label="Available Date"
-name="available">
+name="available"
+rules={[{ required: true, message: 'Please select available time!' }]}>
 <Cascader 
 options={date} multiple maxTagCount="responsive"
 ></Cascader>

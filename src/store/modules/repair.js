@@ -30,12 +30,36 @@ const getRepairList = () =>async(dispatch) =>{
 const postRepairRequest=(data) =>async(dispatch)=>{
     try{
         const res = await request.post('/repair-requests/create',data)
-        dispatch(addRepairList())
+        dispatch(addRepairList(res.data))
         return res
     }catch(error){
         console.log(error)
     }
 }
-export {getRepairList,postRepairRequest}
+
+const getTenantRepairList = () =>async(dispatch) =>{
+    try{
+        const res = await request.get('/repair-requests/tenant/getAll')
+        dispatch(setRepairList(res.data))
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
+
+const updateStatus = (id,data) =>async(dispatch) =>{
+    try{
+        const res = await request.put(`/repair-requests/updateStatus/${id}`,data,{
+            headers:{
+                'Content-Type':'application/json'
+            }
+        })
+        dispatch(getRepairList())
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
+export {getRepairList,postRepairRequest,getTenantRepairList,updateStatus}
 const repairReducer = repair.reducer
 export default repairReducer

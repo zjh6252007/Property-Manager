@@ -5,6 +5,7 @@ import { getPropertyById } from "../../../store/modules/properties";
 import RequestRepairForm from "../../../components/repairComponents/requestRepairForm";
 import { useForm } from "antd/es/form/Form";
 import { postRepairRequest } from "../../../store/modules/repair";
+import { getTenantRepairList } from "../../../store/modules/repair";
 
 const TenantRepair = () =>{
     const dispatch = useDispatch()
@@ -16,6 +17,12 @@ const TenantRepair = () =>{
         SetIsVisible(true)
     }
 
+    useEffect(()=>{
+        dispatch(getTenantRepairList())
+    },[dispatch])
+
+    const repairList = useSelector(state=> state.repair.repairList)
+    console.log(repairList)
     const handelSubmit = async() =>{
         const values = await form.validateFields()
         const formattedDate = values.available.map(slot => {
@@ -45,6 +52,16 @@ const TenantRepair = () =>{
           key:'desciption'
         },
         {
+            title:'Available Date',
+            dataIndex:'available',
+            key:'available'
+        },
+        {
+            title:'Last Update',
+            dataIndex:'updatedAt',
+            key:'updatedAt'
+        },
+        {
             title:'Status',
             dataIndex:'status',
             key:'status',
@@ -59,16 +76,7 @@ const TenantRepair = () =>{
                 }
                 return <span style={{color}}>{status}</span>
             }
-          },
-        {
-          title:'Action',
-          key:'action',
-          render:(_,record) =>(
-              <Space size="middle">
-              <Button>Delete</Button>
-              </Space>
-          )
-        }
+          }
       ]
 
     return(
@@ -81,7 +89,7 @@ const TenantRepair = () =>{
                 <Button type="primary" onClick={showModal} size='large'>Request Repair</Button>
                 </div>
             </div>
-                <Table columns={columns}  rowKey="id"/>
+                <Table columns={columns} dataSource={repairList} rowKey="id"/>
             </div>
             <Modal title="Request Repair" open={isVisible}  onCancel={handelCancel} onOk={handelSubmit}>
                 <RequestRepairForm form={form} />
