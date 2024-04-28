@@ -18,7 +18,7 @@ const Sidebar = () =>{
     }
 
     const filterNav = navinfo.filter(item=>{
-        return role === 'tenant' ? item.tenantVisible : !item.tenantVisible
+        return item.visibleFor === 'both'||item.visibleFor === role
     })
 
     return(

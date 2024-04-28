@@ -20,7 +20,6 @@ import { useSelector } from 'react-redux'
 
 const useRoleBasedRoutes = () => {
     const role = useSelector(state => state.user.userInfo.role);  // Assuming `role` is stored in `userInfo`
-    console.log(role)
     const routes = [
         {
             path: '/',
