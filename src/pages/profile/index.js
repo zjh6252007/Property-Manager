@@ -30,7 +30,6 @@ const Profile =()=>{
                 message.error(res.message)
             }
         })
-
     }
     const showModal=()=>{
         SetIsVisible(true)
@@ -86,7 +85,6 @@ const Profile =()=>{
                           </div>
                         </div>
                         <div className='email-button'>
-                        <Button className="info-button" type="primary" size='large'>Edit</Button>
                         {!verified?
                         <Button className='resend-button' type='primary' size='large' onClick={handleClick}>Resend</Button>:<></>
                         }

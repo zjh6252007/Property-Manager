@@ -14,6 +14,7 @@ import PropertyDetails from '../pages/Properties/PropertyDetails/index.js'
 import Verify from '../pages/Verfiy/index.js'
 import TenantRegister from '../pages/Register/tenantRegister.js'
 import TenantRepair from '../pages/Tenant/Repair/index.js'
+import MyHome from '../pages/Tenant/Home/index.js'
 import { useSelector } from 'react-redux'
 
 
@@ -25,8 +26,9 @@ const useRoleBasedRoutes = () => {
             path: '/',
             element: <RouterAu><MainPage /></RouterAu>,
             children: role === 'tenant' ? [
-                { path: '/profile', element: <Profile /> },
-                { path: '/tenant-repair',element:<TenantRepair/>}
+                {path:'/myHome',element:<MyHome/>},
+                { path: '/tenant-repair',element:<TenantRepair/>},
+                { path: '/profile', element: <Profile /> }
             ] : [
                 { path: '/home', element: <Home /> },
                 { path: '/documents', element: <Documents /> },
@@ -35,7 +37,8 @@ const useRoleBasedRoutes = () => {
                 { path: '/profile', element: <Profile /> },
                 { path: '/repair', element: <Repair /> },
                 { path: '/tenant', element: <Tenants /> },
-                { path: '/tenant-repair',element:<TenantRepair/>}
+                { path: '/tenant-repair',element:<TenantRepair/>},
+                {path:'/myHome',element:<MyHome/>}
             ]
         },
         { path: '/login', element: <Login /> },

@@ -34,16 +34,21 @@ const downloadContract = (fileName) =>{
     }
 }
 
-const uploadContract = (fileData) => async(dispatch) =>{
+const uploadContract = (fileData,contractData) => async(dispatch) =>{
     try{
         dispatch(setUploadStatus('uploading'))
         const formData = new FormData()
         formData.append("file",fileData)
-        const res = await request.post('/file/upload',formData,{
-            headers:{
-                'Content-Type':'multipart/form-data',
-            },
+
+        if(contractData && typeof contractData === 'object'){
+        Object.keys(contractData).forEach(key=>{
+            formData.append(key,contractData[key])
         })
+    }
+        for(let pair of formData.entries()){
+            console.log(`${pair[0]}: ${pair[1]}`)
+        }
+        const res = await request.post('/file/upload',formData)
         dispatch(setUploadStatus('success'))
         dispatch(getContractList())
         return res

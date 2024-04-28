@@ -6,6 +6,7 @@ export const navinfo = [
     {name:'Repair',path:'/repair',icon:<KeyOutlined/>,tenantVisible:false},
     {name:'Tenants',path:'/tenant',icon:<FolderOpenOutlined/>,tenantVisible:false},
     {name:'Documents',path:'/documents',icon:<FolderOpenOutlined/>,tenantVisible:false},
-    {name:'Profile',path:'/profile',icon:<UserOutlined />,tenantVisible:true},
-    {name:'Repair',path:'/tenant-repair',icon:<KeyOutlined/>,tenantVisible:true}
+    {name:'Home',path:'/myHome',icon:<HomeOutlined/>,tenantVisible:true},
+    {name:'Repair',path:'/tenant-repair',icon:<KeyOutlined/>,tenantVisible:true},
+    {name:'Profile',path:'/profile',icon:<UserOutlined />}
 ]

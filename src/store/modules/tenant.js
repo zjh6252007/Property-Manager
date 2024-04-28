@@ -48,10 +48,12 @@ const postTenantData =(data) => async(dispatch) =>{
     }
 }
 
-const deleteTenantData = (id) => async(dispatch)=>{
+const deleteTenantData = (id) => async(dispatch,getState)=>{
         try{
             await request.delete(`/tenant/delete/${id}`)
-            dispatch(getTenantData())
+            const currentTenants= getState().tenant.tenantInfo
+            const updatedTenants = currentTenants.filter(tenant=>tenant.id !== id)
+            dispatch(setTenantInfo(updatedTenants))
         }catch(error)
         {
             console.log(error)
