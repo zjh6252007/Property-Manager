@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, DatePicker,Upload} from 'antd';
+import { Form, DatePicker,Upload,Input} from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 const UploadContractForm = ({form}) =>{
 
@@ -32,14 +32,18 @@ labelCol={{ span: 8 }}
 wrapperCol={{ span: 16 }}
 initialValues={{ remember: true }}
 >
-
+<Form.Item label="Contract Name" name="name" rules={[{ required: true, message: 'Please Enter Contract Name ' }]}>
+    <Input/>
+</Form.Item>
 <Form.Item label="Start Time" name="startTime" >
-    <DatePicker disabledDate={disabledStartData}/>
+    <DatePicker disabledDate={disabledStartData}
+    rules={[{ required: true, message: 'Please select start date!' }]}/>
 </Form.Item>
 
 
 <Form.Item label="End Time" name="endTime">
-    <DatePicker disabledDate={disabledEndDate}/>
+    <DatePicker disabledDate={disabledEndDate}
+    rules={[{ required: true, message: 'Please select end date!' }]}/>
 </Form.Item>
 
 <Form.Item

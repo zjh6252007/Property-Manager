@@ -27,6 +27,16 @@ const getContractList = () =>{
     }
 }
 
+const getContractListByPropertyId = (id) =>async(dispatch)=>{
+    {
+        try{
+        const res = await request.get(`/contract/${id}`)
+        dispatch(setContractList(res.data))
+        }catch(error){
+            console.log(error)
+        }
+    }
+}
 const downloadContract = (fileName) =>{
     return async() =>{
         const res = await request.get(`/file/presigned-url/${fileName}`)
@@ -67,7 +77,7 @@ const deleteContract = (fileName) =>{
         return res
     }
 }
-export {getContractList,downloadContract,uploadContract,deleteContract}
+export {getContractList,downloadContract,uploadContract,deleteContract,getContractListByPropertyId}
 
 const contractRecuer = contract.reducer
 

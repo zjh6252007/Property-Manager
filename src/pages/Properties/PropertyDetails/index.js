@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from "react-redux"
 import "./index.scss"
+import moment from "moment"
 import { getPropertyById } from "../../../store/modules/properties"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { Space,Popconfirm,Table, Button ,Modal,message,Upload} from 'antd';
+import { Space,Popconfirm,Table, Button ,Modal,message} from 'antd';
 import { useForm } from "antd/es/form/Form"
 import CostForm from "../../../components/propertyComponents/propertyDetails/costForm"
 import { getCostListById,addCost,deleteCost } from "../../../store/modules/cost"
@@ -11,7 +12,8 @@ import TenantFormWithoutAddress from "../../../components/tenantComponents/tenan
 import { postTenantData,deleteTenantData,modifyTenantData,getTenantsByPropertyId } from "../../../store/modules/tenant"
 import { sendInviteLink } from "../../../store/modules/user"
 import UploadContractForm from "../../../components/contractComponents/uploadContractForm"
-import { uploadContract } from "../../../store/modules/contract"
+import { uploadContract,getContractListByPropertyId } from "../../../store/modules/contract"
+import { render } from "@testing-library/react"
 const PropertyDetails = () =>{
     const {id} = useParams()
     const dispatch = useDispatch()
@@ -40,6 +42,11 @@ const PropertyDetails = () =>{
       ...cost,date:formatDate(cost.date)
     }))
 
+    const calculateDaysLeft=(startTime,endTime) => {
+      const start = moment(startTime)
+      const end =moment(endTime)
+      return end.diff(start,'days')
+    }
 //body of tenant,contract,cost form
     const tenantsForm = [
       {
@@ -86,13 +93,29 @@ const PropertyDetails = () =>{
       },
       {
           title: 'Start Date',
-          dataIndex: 'start_date',
-          key:'start_date'
+          dataIndex: 'startTime',
+          key:'startTime'
         },
         {
           title: 'End Date',
-          dataIndex: 'end_date',
-          key:'end_date'
+          dataIndex: 'endTime',
+          key:'endTime'
+        },
+        {
+          title:'Days Left',
+          dataIndex:'daysleft',
+          key:'daysleft',
+          render:(_,record)=>{
+            const days = calculateDaysLeft(record.startTime,record.endTime)
+            if(days < 0){
+              return <span style={{color:'grey'}}>Expired</span>
+            }else if(days<90)
+            {
+              return <span style={{color:'red'}}>{days}</span>
+            }else{
+              return <span style={{color:'green'}}>{days}</span>
+            }
+          }
         },
       {
         title:'Action',
@@ -143,6 +166,7 @@ const PropertyDetails = () =>{
     useEffect(()=>{
       dispatch(getPropertyById(id))
       dispatch(getCostListById(id))
+      dispatch(getContractListByPropertyId(id))
       dispatch(getTenantsByPropertyId(id))
 },[id,dispatch])
 
@@ -151,6 +175,7 @@ const PropertyDetails = () =>{
     ...tenant,
     name:`${tenant.firstName} ${tenant.lastName}`
   }))
+  const contractData = useSelector(state=> state.contract.contractList)
 
     const propertyAddress = property.address || '' //create a temp varible in case address not exist 
     const address = propertyAddress.substring(0,propertyAddress.indexOf(',')) 
@@ -244,6 +269,7 @@ const PropertyDetails = () =>{
           if(values.file && values.file.length>0){
               const file = values.file[0].originFileObj
               const contractData={
+                name:values.name,
                 startTime:values.startTime.format('YYYY-MM-DD'),
                 endTime: values.endTime.format('YYYY-MM-DD'),
                 propertyId:id
@@ -259,28 +285,7 @@ const PropertyDetails = () =>{
           console.error(error)
         }
       }
-     /* const handelUpload = ({file,propertyId}) =>{
-        dispatch(uploadContract(file,propertyId))
-        .then(()=>{
-            message.success(`${file.name} file upload successfully`)
-        })
-        .catch(()=>{
-            message.error('upload failed')
-        })
-      }
 
-      
-    const props = {
-    beforeUpload:(file)=>{
-        const isPDF = file.type === 'application/pdf'
-        if(!isPDF){
-            message.error(`${file.name} is not pdf`)
-        }
-        return isPDF || Upload.LIST_IGNORE
-    },
-    customRequest: handelUpload,
-    showUploadList:false
-}*/
     return(
         <div className="propertyDetails">
             <div className="propertyinfo">
@@ -305,7 +310,7 @@ const PropertyDetails = () =>{
                       <Button type="primary" size='large' onClick={showContractModal}>Upload Contracts</Button>
                     </div>
                 </div>
-                <Table columns={contractForm} rowKey="id"/>
+                <Table columns={contractForm} dataSource={contractData} rowKey="id"/>
             </div>
             <div className="CostList">
                 <div className="title">
