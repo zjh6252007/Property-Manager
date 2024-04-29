@@ -126,6 +126,7 @@ const postTenantRegisterData =(token,data) => async() =>{
     }
 }
 
+
 export {setToken,setUserInfo,getUserData,postLoginData,postRegisterData,clearUserInfo,changePwd,verfiyEmail,resendVerifyEmail,sendInviteLink,postTenantRegisterData}
 
 const userReducer = user.reducer

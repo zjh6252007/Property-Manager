@@ -58,10 +58,11 @@ const Properties =() =>{
         }
     }
 
-    const currentPropertyCards = propertyInfo.slice( //dynamiclly load property info by current page and total elements on the page
+    const currentPropertyCards = Array.isArray(propertyInfo)?
+    propertyInfo.slice( //dynamiclly load property info by current page and total elements on the page
         (currentPage - 1) * pageSize, 
         currentPage * pageSize
-    )
+    ):[]
 
     return( 
         <div className="property">

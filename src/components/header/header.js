@@ -1,5 +1,5 @@
 import './header.scss'
-import { Popconfirm,message,Badge} from 'antd'
+import { Popconfirm,message,Badge,Tooltip} from 'antd'
 import {UserOutlined,NotificationOutlined} from '@ant-design/icons'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,18 +9,22 @@ import SockJS from 'sockjs-client';
 import Stomp from 'stompjs'
 const Header = ()=>{
   
-    const[notification,setNotification] = useState(false);
+    const[notification,setNotification] = useState(false)
+    const[tipInfo,setTipInfo] = useState("")
+    const role = useSelector(state => state.user.userInfo.role)
     useEffect(() => {
-      let socket = new SockJS('http://localhost:8080/ws');
+      if(role === 'owner'){
+      let socket = new SockJS('http://localhost:8080/ws')
       let stompClient = Stomp.over(socket)
       stompClient.connect({}, function(frame) {
           stompClient.subscribe('/topic/repairs', function(message) {
               setNotification(true)
+              setTipInfo("Receive new repair request")
           })
       })
       return () => {
           stompClient.disconnect()
-      }
+      }}
   }, [])
     const dispatch = useDispatch()
     const nav = useNavigate()
@@ -44,7 +48,11 @@ const Header = ()=>{
 <div className='header'>
     <div className='notification'>
       <Badge dot={notification} offset={[-2,10]}>
-    <NotificationOutlined onClick={()=>setNotification(false)}/>
+      <Tooltip title={tipInfo} onVisibleChange={(visible)=>{
+        if(!visible) setTipInfo('')
+      }}>
+    <NotificationOutlined style={{color:'white'}} onClick={()=>setNotification(false)}/>
+      </Tooltip>
     </Badge>
     </div>
 

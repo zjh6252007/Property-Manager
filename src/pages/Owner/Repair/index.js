@@ -72,7 +72,10 @@ const Repair = () =>{
             title:'Update Time',
             dataIndex:'updatedAt',
             key:'updatedAt',
-            width:140
+            width:140,
+            sorter:(a,b)=>new Date(b.updatedAt) - new Date(a.updatedAt),
+            defaultSortOrder:'ascend',
+            render: text => <span>{new Date(text).toLocaleDateString('en-US')}</span>
         },
         {
             title:'Tenant Available',

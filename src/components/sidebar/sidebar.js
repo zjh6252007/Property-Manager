@@ -24,7 +24,7 @@ const Sidebar = () =>{
     return(
      <div className="sidebar">
         <div className="home-logo">
-            <img src={homeIcon} alt="home logo" onClick={()=>nav('/home')()}/>
+            <img src={homeIcon} alt="home logo" onClick={()=>role==='owner'?nav('/home')():nav('/myHome')()}/>
         </div>
 
 

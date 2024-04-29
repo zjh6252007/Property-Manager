@@ -1,0 +1,46 @@
+.myHome{
+    font-size: 40px;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.title{
+    display: flex;
+    flex-direction: row; 
+}
+
+.propertyinfo{
+    display: flex;
+    flex-direction: column; 
+}
+
+.propertyinfo p{
+    height: 20px;
+}
+.description{
+    font-size: 20px;
+    border-bottom: 2px solid #dddddd63;
+    height: 50px;
+}
+
+.monthlyPayment{
+    display: flex;
+    font-size: 30px;
+    align-items: center;
+    border-bottom: 1px solid #dddddd63;
+}
+.price{
+    margin-left:60px;
+}
+.payment-button{
+    margin-left:60px;
+}
+
+.ContractInfo{
+    display: flex;
+    font-size: 30px;
+    border-bottom: 1px solid #dddddd63;
+    flex-direction: column;
+}
