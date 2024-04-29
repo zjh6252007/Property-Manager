@@ -1,7 +1,7 @@
 import "./sidebar.scss"
 import homeIcon from "../../assets/icons/home.png"
 import { navinfo } from "../../navinfo.js"
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import classNames from 'classnames'
 import { useState } from "react"
 import { useSelector } from "react-redux"

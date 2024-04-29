@@ -1,5 +1,5 @@
 import './index.scss'
-import { Button,Modal,Form,Input,message} from 'antd';
+import { Button,Modal,message} from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { useState } from 'react';
 import { changePwd } from '../../store/modules/user';
@@ -17,9 +17,6 @@ const Profile =()=>{
     const email = useSelector(state=>state.user.userInfo.email)
     const username = useSelector(state=>state.user.userInfo.username)
     const verified = useSelector(state=>state.user.userInfo.emailVerified)
-    const [messageApi, contextHolder] = message.useMessage();
-    const emailVerificationMessage = useSelector(state=>state.user.emailVerificationMessage)
-
     const dispatch = useDispatch()
 
     const handleClick=() =>{

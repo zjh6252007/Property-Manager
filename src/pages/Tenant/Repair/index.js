@@ -1,7 +1,6 @@
 import { useEffect,useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Space,Popconfirm,Table, Button ,Modal,Spin} from 'antd';
-import { getPropertyById } from "../../../store/modules/properties";
+import {Table, Button ,Modal,Spin} from 'antd';
 import RequestRepairForm from "../../../components/repairComponents/requestRepairForm";
 import { useForm } from "antd/es/form/Form";
 import { postRepairRequest } from "../../../store/modules/repair";
@@ -10,7 +9,6 @@ import { getTenantRepairList } from "../../../store/modules/repair";
 const TenantRepair = () =>{
     const dispatch = useDispatch()
     const [form] = useForm()
-    const [repairData,SetRepairData] = useState([])
     const [isPageLoading,setIsPageLoading] = useState(false)
     const [isVisible,SetIsVisible] = useState(false)
     const showModal = () =>{

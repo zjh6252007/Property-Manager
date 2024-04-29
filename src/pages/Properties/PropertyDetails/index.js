@@ -13,7 +13,6 @@ import { postTenantData,deleteTenantData,modifyTenantData,getTenantsByPropertyId
 import { sendInviteLink } from "../../../store/modules/user"
 import UploadContractForm from "../../../components/contractComponents/uploadContractForm"
 import { uploadContract,getContractListByPropertyId } from "../../../store/modules/contract"
-import { render } from "@testing-library/react"
 const PropertyDetails = () =>{
     const {id} = useParams()
     const dispatch = useDispatch()

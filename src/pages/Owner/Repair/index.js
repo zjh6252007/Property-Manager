@@ -1,7 +1,7 @@
 import { useEffect,useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getRepairList } from "../../../store/modules/repair"
-import { Space,Popconfirm,Table, Button ,Modal,Spin} from 'antd';
+import { Space,Table, Button ,Modal,Spin} from 'antd';
 import ChangeStatusForm from "../../../components/repairComponents/changeStatusForm";
 import './index.scss'
 import { useForm } from "antd/es/form/Form";

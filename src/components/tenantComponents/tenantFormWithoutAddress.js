@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form, Input,Select} from 'antd';
 const TenantFormWithoutAddress = ({form,isActive}) =>{
-  const {Option} = Select
 return(
 <Form
 form = {form}

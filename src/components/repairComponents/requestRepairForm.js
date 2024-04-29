@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form, Input,Select,Cascader} from 'antd';
 const RequestRepairForm = ({form}) =>{
-const {Option} = Select
 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
 const timeSlots = [
