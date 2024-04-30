@@ -33,10 +33,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "CI=false react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "server": "json-server ./public/db.json --port 5000"
+    "eject": "react-scripts eject"
+
   },
   "eslintConfig": {
     "extends": [
