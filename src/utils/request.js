@@ -1,7 +1,7 @@
 import axios from "axios"
 import { getToken,deleteToken } from "./index"
 const request = axios.create({
-    baseURL:'http://localhost:8080',
+    baseURL:'http://3.235.245.207:8080',
     timeout: 5000
 })
 
