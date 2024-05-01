@@ -1,7 +1,7 @@
 import axios from "axios"
 import { getToken,deleteToken } from "./index"
 const request = axios.create({
-    baseURL:'https://54.172.6.160:443',
+    baseURL:'https://j-propertymanage.com',
     timeout: 5000
 })
 
