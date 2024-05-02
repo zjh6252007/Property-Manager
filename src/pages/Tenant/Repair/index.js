@@ -20,7 +20,6 @@ const TenantRepair = () =>{
     },[dispatch])
 
     const repairList = useSelector(state=> state.repair.repairList)
-    console.log(repairList)
     const handelSubmit = async() =>{
         const values = await form.validateFields()
         const formattedDate = values.available.map(slot => {
@@ -33,9 +32,7 @@ const TenantRepair = () =>{
             description:values.description,
             available:formattedDate
         }
-        console.log(payload)
         const response = await dispatch(postRepairRequest(payload))
-        console.log(response)
         form.resetFields()
         SetIsVisible(false)
     }
@@ -57,7 +54,8 @@ const TenantRepair = () =>{
         {
             title:'Last Update',
             dataIndex:'updatedAt',
-            key:'updatedAt'
+            key:'updatedAt',
+            sorter:(a,b) => new Date(a.updatedAt) - new Date(b.updatedAt)
         },
         {
             title:'Status',
