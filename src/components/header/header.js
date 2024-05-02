@@ -14,7 +14,7 @@ const Header = ()=>{
     const role = useSelector(state => state.user.userInfo.role)
     useEffect(() => {
       if(role === 'owner'){
-      let socket = new SockJS('http://localhost:8080/ws')
+      let socket = new SockJS('https://j-propertymanage.com/ws')
       let stompClient = Stomp.over(socket)
       stompClient.connect({}, function(frame) {
           stompClient.subscribe('/topic/repairs', function(message) {
