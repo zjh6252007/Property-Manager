@@ -1,3 +1,30 @@
+# Property Management Software
+<img width="1212" alt="Image_20240502084613" src="https://github.com/zjh6252007/Property-Manager/assets/51406959/96ada229-9d30-4db6-acd8-95acc8a4b2ae">
+<img width="1869" alt="Image_20240502084617" src="https://github.com/zjh6252007/Property-Manager/assets/51406959/659cd466-d4d0-44ea-8676-2be2eeeeeb70">
+
+
+## Demo Accounts
+You can use the following credentials to log in and explore the functionalities of the software:
+
+- **Landlord Account**
+  - **Username**: testt
+  - **Password**: z123456
+
+- **Tenant Account**
+  - **Username**: zzz111
+  - **Password**: z1234567
+ 
+## Overview
+This Property Management Software is a comprehensive tool designed for landlords and tenants to manage various aspects of property rentals. It offers a robust platform for user authentication, contract management, and maintenance requests.
+
+## Features
+
+- **User Authentication**: Supports user registration, login, and email verification to ensure secure access.
+- **Contract Management**: Allows users to upload and download rental contracts easily.
+- **Tenant Management**: Enables landlords to add and remove tenants, and invite them to create accounts.
+- **Property Management**: Facilitates adding and deleting properties.
+- **Maintenance Requests**: Tenants can create repair requests, improving communication and response times.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
